@@ -1,9 +1,9 @@
 import { SideBar } from '../../GeneralComponents/SideBarComponent/SideBar'
 import { TimeLinePanel } from '../../GeneralComponents/TimeLinePanelComponent/TimeLinePanel'
 import { AddNewTaskModal } from '../../GeneralComponents/AddNewTaskModalComponent/AddNewTaskModal'
-import { TasksView } from './TasksView'
+import { TasksView } from '../Tasks/TasksView'
 import { useState } from 'react'
-export function Dashboard() {
+export function HomePage() {
   let [isOpen, setIsOpen] = useState(true);
   function handleAddNewTask() {
     setIsOpen(isOpen => !isOpen);
@@ -17,8 +17,8 @@ export function Dashboard() {
             : 'opacity-0 transition-all pointer-events-none duration-300 ease-in-out'}
           `}></div>
         <SideBar handleAddNewTask={handleAddNewTask}></SideBar>
-        <TasksView></TasksView>
         <TimeLinePanel></TimeLinePanel>
+        <TasksView></TasksView>
         <AddNewTaskModal isOpen={isOpen} handleAddNewTask={handleAddNewTask}></AddNewTaskModal>
       </div>
     </>

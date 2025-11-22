@@ -3,7 +3,7 @@ import { ModalInput } from './ModalInput'
 import { ModalPriority } from './ModalPriority'
 import { ModalDescription } from './ModalDescription'
 export function AddNewTaskModal({ isOpen,handleAddNewTask }) {
-  const modalClasses = `mt-45 pt-5 px-10 pb-20 absolute justify-around 
+  const modalClasses = `mt-60 pt-5 px-10 pb-20 absolute justify-around
         top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
         bg-opacity-50 flex flex-col gap-4 z-1000 shadow-xl 
         bg-white rounded-xl w-1/2 
