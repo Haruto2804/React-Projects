@@ -16,7 +16,7 @@ export function Calendar() {
     // Dữ liệu cần thiết
     const totalDays = lastDay.getDate(); // Sửa lỗi: Lấy tổng số ngày (28-31)
     const firstDayIndex = firstDay.getDay(); // Thứ của ngày 1 (0=CN, 1=T2,...)
-
+    console.log(firstDayIndex);
     // Tiêu đề Tháng & Năm
     const monthYearString = currentDate.toLocaleDateString('default', { month: 'long', year: 'numeric', });
 
@@ -86,7 +86,7 @@ export function Calendar() {
   // --- Giao diện (JSX) ---
   return (
     <>
-      <div className="calendar w-[300px] bg-white mx-auto mt-10 p-4 rounded-lg shadow-xl flex flex-col items-center">
+      <div className="calendar w-[300px] bg-white 0 p-4 rounded-lg shadow-xl flex flex-col items-center">
         
         {/* Header: Navigation and Month/Year */}
         <div className="flex gap-5 justify-between w-full mb-3 items-center">

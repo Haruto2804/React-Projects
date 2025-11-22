@@ -10,8 +10,8 @@ import { GoProjectRoadmap } from "react-icons/go";
 export function SideBar() {
   return (
     <>
-      <aside className="fixed top-0 left-0 bottom-0 flex flex-col gap-5
-      border-r border-solid border-gray-200 p-5
+      <aside className="fixed top-0 left-0 bottom-0 flex flex-col gap-5 w-sidebar z-1000
+      border-r border-solid border-gray-200 p-5 bg-white
       ">
         <div className=" p-2 ">
           <div className="user-section flex gap-2 items-center ">

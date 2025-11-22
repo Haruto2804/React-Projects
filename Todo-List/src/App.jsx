@@ -1,6 +1,7 @@
 import './App.css'
 import { SideBar } from './components/SideBar'
-import { Calendar } from './components/Calendar'
+import { TimeLinePanel } from './components/TimeLinePanel'
+import { TasksView } from './components/TasksView'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 function App() {
@@ -8,8 +9,13 @@ function App() {
 
   return (
     <>
-      <Calendar></Calendar>
-      
+      <div className = "flex">
+        <SideBar></SideBar>
+        <TasksView></TasksView>
+        <TimeLinePanel></TimeLinePanel>
+      </div>
+
+
     </>
   )
 }
