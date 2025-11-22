@@ -1,5 +1,5 @@
 
-export function TasksView() {
+export function TasksView({ todo }) {
   const currentTime = new Date();
   const dateString = currentTime.toLocaleString('default', {
     weekday: 'long',
@@ -8,14 +8,48 @@ export function TasksView() {
   });
   return (
     <>
-      <div className="ml-[258px] mr-[325px] w-full p-8 flex flex-col gap-5 overflow-auto">
+      <div className="ml-[258px] mr-80 flex-1 p-8 flex flex-col gap-5 overflow-y-auto">
         <div className="">
           <div className="flex flex-col gap-2">
             <p className="text-3xl font-bold">Today's Task</p>
             <p className="text-gray-500 text-lg">{dateString}</p>
           </div>
         </div>
-        <h1 className = "text-5xl">Welcome to my website</h1>
+        {todo.map((task) => (
+          <div key={task.id} className="flex flex-col gap-2 w-full">
+            <div className="flex items-center justify-between border-solid border
+          border-gray-200 rounded-lg cursor-pointer hover:bg-slate-200 transition-all
+          p-4">
+              <div className="flex gap-4 items-center">
+                <input type="checkbox" className="size-5 rounded cursor-pointer" />
+                <p className="">{task.todo}</p>
+              </div>
+              <div className="flex gap-4 items-center">
+                <div className={
+
+                  `
+                  
+                ${task.priority === 'High' ? "text-red-500 bg-red-100"
+                    : task.priority === 'Medium' ? "text-yellow-700 bg-yellow-100"
+                      : task.priority === "Low" ? "text-gray-700 bg-gray-200"
+                        :  "text-green-700 bg-green-200" 
+                  }
+                font-semibold 
+                rounded-full 
+                text-sm 
+                px-3 
+                py-1`}>
+                  {task.priority}
+                </div>
+                <p className="text-gray-500">Today</p>
+              </div>
+            </div>
+
+
+          </div>
+
+        ))}
+
       </div>
 
     </>
