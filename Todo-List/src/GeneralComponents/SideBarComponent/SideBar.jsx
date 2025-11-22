@@ -1,4 +1,4 @@
-import HarutoPicture from '../image/haruto-picture.png'
+import HarutoPicture from '../../image/haruto-picture.png'
 import { HiOutlineInbox } from "react-icons/hi2";
 import { IoTodayOutline } from "react-icons/io5";
 import { MdOutlineUpcoming } from "react-icons/md";
