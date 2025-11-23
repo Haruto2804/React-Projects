@@ -53,7 +53,6 @@ function App() {
       setIsLoading(false);
     }
   }
-
   const addTasks = async (newTaskData) => {
     try {
       console.log(newTaskData)
@@ -63,7 +62,8 @@ function App() {
         ...addNewTask,
         priority: newTaskData.priority,
         name: newTaskData.name,
-        date: newTaskData.date
+        date: newTaskData.date,
+        id: crypto.randomUUID()
       }
       setTodos(prevTodos => [
         finalTask,
@@ -77,9 +77,17 @@ function App() {
       setIsLoading(false);
     }
   }
-  useEffect(()=> {
+  const handleToggleCompleted = (taskId) => {
+    console.log('Task vua bam co id: ', taskId);
+    setTodos(prevTask =>
+      prevTask.map(task =>
+        task.id === taskId ? { ...task, completed: !task.completed } : task
+      )
+    );
+  };
+  useEffect(() => {
     getTasks();
-  },[]);
+  }, []);
   useEffect(() => {
     // 1. Kiểm tra xem dữ liệu có tồn tại không trước khi lưu
     if (todo.length > 0) {
@@ -90,7 +98,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<HomePage addTasks={addTasks} todo={todo} />}>
+        <Route path="/" element={<HomePage handleToggleCompleted={handleToggleCompleted} addTasks={addTasks} todo={todo} />}>
           <Route path="/tasks/all" element={<TasksView />} />
           <Route path="/tasks/today" element={<TasksView />} />
           <Route path="/tasks/upcoming" element={<TasksView />} />

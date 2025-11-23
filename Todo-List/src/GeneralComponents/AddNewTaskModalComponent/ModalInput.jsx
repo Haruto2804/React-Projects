@@ -1,6 +1,6 @@
 import { CiCalendar } from "react-icons/ci";
 
-export function ModalInput({setTodoName,setDate, defaultDateString}) {
+export function ModalInput({setTodoName,setDate}) {
   
   return (
     <>
@@ -10,7 +10,6 @@ export function ModalInput({setTodoName,setDate, defaultDateString}) {
           <input className=
             "rounded-sm border flex-1 border-gray-300 px-4 py-2 text-lg outline-none"
             type="text" placeholder="e.g, Design new dashboard" 
-            value = "Create website with Haruto"
             onChange = {(e)=> setTodoName(e.target.value)}
             />
         </div>
@@ -20,7 +19,6 @@ export function ModalInput({setTodoName,setDate, defaultDateString}) {
             <input className=
               "rounded-sm border flex-1 border-gray-300 px-4 py-2 text-lg outline-none"
               type="date" placeholder="e.g, Design new dashboard" 
-              value = {defaultDateString}
               onChange = {(e)=> setDate(e.target.value)}/>
           </div>
 
