@@ -5,8 +5,9 @@ import { MdOutlineUpcoming, MdOutlineWorkHistory } from "react-icons/md";
 import { FaRegCheckCircle } from "react-icons/fa";
 import { GoProjectRoadmap } from "react-icons/go";
 import { NavLink, Link } from 'react-router-dom';
-
-export function SideBar({ handleAddNewTask }) {
+import React from 'react'
+export const SideBar = React.memo(function SideBar({ handleAddNewTask }) {
+  console.log('rerender sidebar')
   const getNavLinkClass = ({ isActive }) =>
     `flex gap-4 p-3 items-center cursor-pointer rounded-lg transition-colors
         ${isActive
@@ -81,4 +82,4 @@ export function SideBar({ handleAddNewTask }) {
       </div>
     </nav>
   );
-}
+})

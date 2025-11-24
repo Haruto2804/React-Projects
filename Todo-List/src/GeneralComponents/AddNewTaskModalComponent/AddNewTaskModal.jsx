@@ -3,15 +3,15 @@ import { ModalInput } from './ModalInput'
 import { ModalPriority } from './ModalPriority'
 import { ModalDescription } from './ModalDescription'
 import { useState } from 'react'
-export function AddNewTaskModal({addTasks, isOpen, handleAddNewTask }) {
+import React from 'react'
+export const AddNewTaskModal = React.memo(function AddNewTaskModal({ addTasks, isOpen, handleAddNewTask }) {
   const [todoName, setTodoName] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState("");
   const [date, setDate] = useState("");
-
   const currentDate = new Date();
   // Lấy ngày hôm nay ở định dạng YYYY-MM-DD (cần cho logic lọc)
-  const defaultDateString = currentDate.toISOString().split('T')[0]; 
+  const defaultDateString = currentDate.toISOString().split('T')[0];
   const handleSaveTodo = () => {
     const newTaskData = {
       todo: description,
@@ -19,7 +19,8 @@ export function AddNewTaskModal({addTasks, isOpen, handleAddNewTask }) {
       userId: Math.floor(Math.random() * 10) + 1,
       priority: priority || 'Medium',
       date: date || defaultDateString,
-      name: todoName
+      name: todoName,
+      isDeleted: false
     }
     console.log(newTaskData)
     addTasks(newTaskData);
@@ -34,9 +35,9 @@ export function AddNewTaskModal({addTasks, isOpen, handleAddNewTask }) {
   return (
     <>
       <div className={modalClasses}>
-        <ModalHeader header = "Add new task" subtitle = "Fill in the details below to add a new task."></ModalHeader>
+        <ModalHeader header="Add new task" subtitle="Fill in the details below to add a new task."></ModalHeader>
         <hr className=" border-t border-gray-300 w-full" />
-        <ModalInput setTodoName={setTodoName} setDate={setDate} defaultDateString = {defaultDateString}></ModalInput>
+        <ModalInput setTodoName={setTodoName} setDate={setDate} defaultDateString={defaultDateString}></ModalInput>
         <ModalPriority setPriority={setPriority}></ModalPriority>
         <hr className=" border-t border-gray-300 w-full" />
         <ModalDescription setDescription={setDescription}></ModalDescription>
@@ -47,8 +48,6 @@ export function AddNewTaskModal({addTasks, isOpen, handleAddNewTask }) {
             className=" text-white cursor-pointer hover:bg-blue-600 transition-all text-font rounded-lg  bg-blue-500 px-6 py-3 font-bold">Add Task</button>
         </div>
       </div>
-
-
     </>
   )
-}
+})

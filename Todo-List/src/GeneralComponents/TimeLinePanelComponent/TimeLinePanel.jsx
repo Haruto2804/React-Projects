@@ -1,7 +1,9 @@
 import { Calendar } from "./Calendar";
 import { UpComingDeadlines } from "./UpComingDeadlines";
 import { TodayProgress } from "./TodayProgress";
-export function TimeLinePanel() {
+import React from 'react';
+export const TimeLinePanel = React.memo((function TimeLinePanel() {
+  console.log('rerender timelinepanel');
   return (
     <>
       <div className="fixed top-0 right-0 bottom-0 border-l overflow-auto
@@ -16,4 +18,4 @@ export function TimeLinePanel() {
 
     </>
   )
-}
+}))

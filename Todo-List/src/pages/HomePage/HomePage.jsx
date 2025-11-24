@@ -2,27 +2,36 @@ import { SideBar } from '../../GeneralComponents/SideBarComponent/SideBar'
 import { TimeLinePanel } from '../../GeneralComponents/TimeLinePanelComponent/TimeLinePanel'
 import { AddNewTaskModal } from '../../GeneralComponents/AddNewTaskModalComponent/AddNewTaskModal'
 import { TasksView } from '../Tasks/TasksView'
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { DeleteConfirm } from '../../GeneralComponents/Confirm/DeleteConfirm'
 import { UpdateConfirm } from '../../GeneralComponents/Confirm/UpdateConfirm'
 import { UpdateTask } from '../../GeneralComponents/UpdateTask/UpdateTask'
-export function HomePage({ handleToggleCompleted, addTasks, todo }) {
+export function HomePage({ deleteTask, handleToggleCompleted, addTasks, todo }) {
   const [isOpenAddNewTask, setIsOpenAddNewTask] = useState(false);
   const [isOpenDeleteConfirm, setIsOpenDeleteConfirm] = useState(false);
   const [isOpenUpdateTask, setIsOpenUpdateTask] = useState(false);
   const [isOpenUpdateConfirm, setIsOpenUpdateConfirm] = useState(false);
-  function handleAddNewTask() {
+  const [taskIdToDelete, setTaskIdToDelete] = useState(null);
+  const memorizedHandleAddNewTask = useCallback(() => {
     setIsOpenAddNewTask(isOpen => !isOpen);
-  }
-  function handleDeleteConfirm() {
+  }, [])
+
+  const handleDeleteConfirm = useCallback((taskId) => {
+    if (taskId) {
+      setTaskIdToDelete(taskId);
+    } else {
+      setTaskIdToDelete(null);
+    }
     setIsOpenDeleteConfirm(isOpenDeleteConfirm => !isOpenDeleteConfirm);
-  }
-  function handleUpdateTask() {
-    setIsOpenUpdateTask(isOpenUpdateTask => !isOpenUpdateTask);
-  }
-  function handleUpdateConfirm() {
+  }, [])
+  const handleUpdateTask = useCallback(()=> {
+      setIsOpenUpdateTask(isOpenUpdateTask => !isOpenUpdateTask);
+  },[])
+  
+  
+  const handleUpdateConfirm = useCallback(()=> {
     setIsOpenUpdateConfirm(isOpenUpdateConfirm => !isOpenUpdateConfirm);
-  }
+  },[])
   return (
     <>
       <div className="relative flex flex-col">
@@ -32,17 +41,17 @@ export function HomePage({ handleToggleCompleted, addTasks, todo }) {
             : 'opacity-0 transition-all pointer-events-none duration-300 ease-in-out'}
           `}
           onClick={() => {
-            if (isOpenAddNewTask) handleAddNewTask();
+            if (isOpenAddNewTask) memorizedHandleAddNewTask();
             if (isOpenDeleteConfirm) handleDeleteConfirm();
             if (isOpenUpdateTask) handleUpdateTask();
           }}></div>
-        <SideBar handleAddNewTask={handleAddNewTask}></SideBar>
+        <SideBar handleAddNewTask={memorizedHandleAddNewTask}></SideBar>
 
         <TasksView handleUpdateTask={handleUpdateTask} handleDeleteConfirm={handleDeleteConfirm} handleToggleCompleted={handleToggleCompleted} todo={todo}></TasksView>
         <TimeLinePanel></TimeLinePanel>
-        <AddNewTaskModal addTasks={addTasks} isOpen={isOpenAddNewTask} handleAddNewTask={handleAddNewTask}></AddNewTaskModal>
-        <DeleteConfirm isOpenDeleteConfirm={isOpenDeleteConfirm} handleDeleteConfirm={handleDeleteConfirm}></DeleteConfirm>
-        <UpdateConfirm handleUpdateConfirm={handleUpdateConfirm} isOpenUpdateConfirm={isOpenUpdateConfirm} handleUpdateTask = {handleUpdateTask} ></UpdateConfirm>
+        <AddNewTaskModal addTasks={addTasks} isOpen={isOpenAddNewTask} handleAddNewTask={memorizedHandleAddNewTask}></AddNewTaskModal>
+        <DeleteConfirm deleteTask={deleteTask} taskIdToDelete={taskIdToDelete} isOpenDeleteConfirm={isOpenDeleteConfirm} handleDeleteConfirm={handleDeleteConfirm}></DeleteConfirm>
+        <UpdateConfirm handleUpdateConfirm={handleUpdateConfirm} isOpenUpdateConfirm={isOpenUpdateConfirm} handleUpdateTask={handleUpdateTask} ></UpdateConfirm>
         <UpdateTask handleUpdateConfirm={handleUpdateConfirm} isOpenUpdateConfirm={isOpenUpdateTask} handleUpdateTask={handleUpdateTask}></UpdateTask>
       </div>
     </>

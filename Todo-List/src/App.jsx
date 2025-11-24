@@ -7,7 +7,6 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 const getInitialTodos = () => {
   const storedTodos = localStorage.getItem('todos');
-
   if (storedTodos) {
     // Nếu có dữ liệu, chuyển từ chuỗi JSON thành đối tượng JavaScript
     return JSON.parse(storedTodos);
@@ -15,16 +14,49 @@ const getInitialTodos = () => {
   // Nếu không có, trả về mảng rỗng để khởi tạo
   return [];
 };
+// newTaskData: Local Storage Data, currentTodos, useState todo hiện tại, lấy từ API
+const mergeTodoData = (currentTodos, newTaskData) => {
+  const newTaskMap = new Map();
+  newTaskData.forEach(task => {
+    newTaskMap.set(task.id, task);
+  })
+
+  // mergeList co nghia la kiem tra du lieu tu API co trong Local Storage hay ko, nếu có thì đem các thuộc
+  // tính mới (nếu có) của Local Storage ghi đè vào data của API rồi trả về
+  const mergeList = currentTodos.map((task) => {
+    const newData = newTaskMap.get(task.id);
+    if (newData) {
+      return {
+        ...newData,
+        ...task,
+      }
+    }
+    // nếu Local Storage ko có todo trong API thì trả về data của API mà ko làm gì
+    return task;
+  })
+  // lọc tập Set các ID API
+  const currentId = new Set(currentTodos.map((task) => task.id));
+  // lọc các data của LocalStorage mà chưa có trong API
+  const newlyAddTasked = newTaskData.filter(task => !currentId.has(task.id));
+  return [
+    ...mergeList, // mảng data của API
+    ...newlyAddTasked // mảng data của Local Storage
+    // hợp nhất 2 dữ liệu lại với nhau
+  ]
+}
 function App() {
   const [todo, setTodos] = useState(getInitialTodos);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const getTasks = async () => {
+    const storedLocalStorageTodoData = getInitialTodos();
     try {
       const response = await axios.get('https://dummyjson.com/todos');
       const priorityLevels = ["High", "Medium", "Completed", "Low",];
       const tasksWithPriority = response.data.todos.map((task) => {
         let priority = priorityLevels[Math.floor(Math.random() * priorityLevels.length)];
+
+
         if (task.completed) {
           priority = "Completed"
         }
@@ -38,10 +70,14 @@ function App() {
         }
         return {
           ...task, // Giữ lại các trường cũ (id, todo, completed)
-          priority: priority // Thêm trường priority mới
+          priority: priority,
+          isDeleted: false,
+          // Thêm trường priority mới
         };
       })
-      setTodos(tasksWithPriority);
+      const newMergeData = mergeTodoData(tasksWithPriority, storedLocalStorageTodoData);
+      console.log('Data sau khi hop nhat: ', newMergeData);
+      setTodos(newMergeData);
       setError(null);
     }
     catch (err) {
@@ -62,9 +98,9 @@ function App() {
         ...addNewTask,
         priority: newTaskData.priority,
         name: newTaskData.name,
-        date: newTaskData.date,
-        id: crypto.randomUUID()
+        date: newTaskData.date
       }
+    
       setTodos(prevTodos => [
         finalTask,
         ...prevTodos
@@ -76,6 +112,31 @@ function App() {
     } finally {
       setIsLoading(false);
     }
+  }
+  const deleteTask = async (taskId) => {
+    try {
+      const response = await axios.delete(`https://dummyjson.com/todos/${taskId}`);
+      console.log(`Task sau khi xóa ${taskId} đã được xóa!`);
+      const deletedTaskData = response.data;
+      setTodos(prevTodos => {
+        return prevTodos.map(task => {
+          if (task.id === taskId) {
+            return {
+              ...task,
+              ...deletedTaskData
+            }
+          }
+          return task;
+        })
+      })
+      setError(null);
+    } catch (err) {
+      console.error('Lỗi khi xóa task:', err);
+      setError("Không thể xóa task. Vui lòng kiểm tra kết nối.");
+    } finally {
+      setIsLoading(false);
+    }
+
   }
   const handleToggleCompleted = (taskId) => {
     console.log('Task vua bam co id: ', taskId);
@@ -98,7 +159,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<HomePage handleToggleCompleted={handleToggleCompleted} addTasks={addTasks} todo={todo} />}>
+        <Route path="/" element={<HomePage deleteTask={deleteTask} handleToggleCompleted={handleToggleCompleted} addTasks={addTasks} todo={todo} />}>
           <Route path="/tasks/all" element={<TasksView />} />
           <Route path="/tasks/today" element={<TasksView />} />
           <Route path="/tasks/upcoming" element={<TasksView />} />

@@ -2,7 +2,6 @@ import { useLocation } from 'react-router-dom'
 import { GoPencil } from "react-icons/go";
 import { FaRegTrashAlt } from "react-icons/fa";
 export function TasksView({ handleUpdateTask, handleDeleteConfirm, handleToggleCompleted, todo }) {
-  console.log(todo);
   const location = useLocation();
   const currentView = location.pathname.split('/').pop();
   const tasksToDisplay = todo || [];
@@ -20,27 +19,28 @@ export function TasksView({ handleUpdateTask, handleDeleteConfirm, handleToggleC
     taskDate.setHours(0, 0, 0, 0);
     return taskDate.getTime();
   };
+  const activeTasks = tasksToDisplay.filter((task) => task.isDeleted === false);
   let filteredTasks = [];
   switch (currentView) {
     case 'completed':
-      filteredTasks = tasksToDisplay.filter(task => task.completed === true);
+      filteredTasks = activeTasks.filter(task => task.completed === true);
       break;
     case 'upcoming':
-      filteredTasks = tasksToDisplay.filter(task => {
+      filteredTasks = activeTasks.filter(task => {
         const taskTimestamp = getTaskDateStart(task.date);
         // Công việc chưa hoàn thành VÀ ngày đến hạn là trong tương lai (> ngày hôm nay)
         return task.completed === false && taskTimestamp !== null && taskTimestamp > todayTimestamp;
       });
       break;
     case 'today':
-      filteredTasks = tasksToDisplay.filter(task => {
+      filteredTasks = activeTasks.filter(task => {
         const taskTimestamp = getTaskDateStart(task.date);
 
         return taskTimestamp === todayTimestamp;
       });
       break;
     default:
-      filteredTasks = tasksToDisplay;
+      filteredTasks = activeTasks;
       break;
 
   }
@@ -131,14 +131,14 @@ export function TasksView({ handleUpdateTask, handleDeleteConfirm, handleToggleC
                 }>{task.priority}</p>
                 <div className="flex flex-col opacity-0 hover:opacity-100 items-center">
                   <button
-                  onClick={handleUpdateTask}
+                    onClick={handleUpdateTask}
                     disabled={task.completed}
                     className="p-2 cursor-pointer hover:bg-black/10 transition-all rounded-full">
                     <GoPencil />
                   </button>
                   <button
                     disabled={task.completed}
-                    onClick={handleDeleteConfirm}
+                    onClick={() => handleDeleteConfirm(task.id)}
                     className="p-2 cursor-pointer hover:bg-black/10 transition-all rounded-full">
                     <FaRegTrashAlt />
                   </button>

@@ -1,5 +1,6 @@
 import { BsTrash3 } from "react-icons/bs";
-export function DeleteConfirm({ isOpenDeleteConfirm, handleDeleteConfirm }) {
+import React from 'react'
+export const DeleteConfirm = React.memo(function DeleteConfirm({ deleteTask, taskIdToDelete, isOpenDeleteConfirm, handleDeleteConfirm }) {
   return (
     <>
       <div className={`
@@ -25,9 +26,11 @@ export function DeleteConfirm({ isOpenDeleteConfirm, handleDeleteConfirm }) {
         <p className="text-2xl font-bold">Are you sure want to delete this task?</p>
         <p className="text-lg text-gray-400 font-bold">This action is permanent and cannot be undone.</p>
         <div className="flex w-full gap-5">
-          <button 
-          onClick = {handleDeleteConfirm}
-          className="font-bold 
+          <button
+            onClick={() => {
+              handleDeleteConfirm();
+            }}
+            className="font-bold 
           flex-1 
           px-10 
           w-full 
@@ -39,7 +42,11 @@ export function DeleteConfirm({ isOpenDeleteConfirm, handleDeleteConfirm }) {
           transition-all"
           >Cancel</button>
           <button
-            onClick={handleDeleteConfirm}
+            onClick={() => {
+              deleteTask(taskIdToDelete);
+              handleDeleteConfirm();
+
+            }}
             className={`font-bold 
           flex-1 
           px-10 
@@ -54,4 +61,4 @@ export function DeleteConfirm({ isOpenDeleteConfirm, handleDeleteConfirm }) {
       </div>
     </>
   )
-}
+})
