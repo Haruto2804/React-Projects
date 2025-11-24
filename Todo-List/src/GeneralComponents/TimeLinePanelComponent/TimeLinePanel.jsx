@@ -1,9 +1,20 @@
 import { Calendar } from "./Calendar";
 import { UpComingDeadlines } from "./UpComingDeadlines";
 import { TodayProgress } from "./TodayProgress";
-import React from 'react';
-export const TimeLinePanel = React.memo((function TimeLinePanel() {
+import React, { useMemo } from 'react';
+export const TimeLinePanel = React.memo((function TimeLinePanel({todo}) {
   console.log('rerender timelinepanel');
+  const {total,completedTask, percent} = useMemo (()=> {
+    const total = todo.length;
+    const completedTask = todo.filter((task)=>task.completed).length;
+    const percent = total === 0 ? 0 : Math.round((completedTask / total) * 100);
+    console.log(completedTask)
+    return {
+      total,
+      completedTask,
+      percent
+    }
+  },[todo])
   return (
     <>
       <div className="fixed top-0 right-0 bottom-0 border-l overflow-auto
@@ -13,9 +24,8 @@ export const TimeLinePanel = React.memo((function TimeLinePanel() {
       ">
         <Calendar></Calendar>
         <UpComingDeadlines></UpComingDeadlines>
-        <TodayProgress></TodayProgress>
+        <TodayProgress total = {total} completedTask = {completedTask} percent = {percent}></TodayProgress>
       </div>
-
     </>
   )
 }))

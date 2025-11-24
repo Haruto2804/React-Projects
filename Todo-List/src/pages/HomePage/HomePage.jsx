@@ -48,7 +48,7 @@ export function HomePage({ deleteTask, handleToggleCompleted, addTasks, todo }) 
         <SideBar handleAddNewTask={memorizedHandleAddNewTask}></SideBar>
 
         <TasksView handleUpdateTask={handleUpdateTask} handleDeleteConfirm={handleDeleteConfirm} handleToggleCompleted={handleToggleCompleted} todo={todo}></TasksView>
-        <TimeLinePanel></TimeLinePanel>
+        <TimeLinePanel todo = {todo}></TimeLinePanel>
         <AddNewTaskModal addTasks={addTasks} isOpen={isOpenAddNewTask} handleAddNewTask={memorizedHandleAddNewTask}></AddNewTaskModal>
         <DeleteConfirm deleteTask={deleteTask} taskIdToDelete={taskIdToDelete} isOpenDeleteConfirm={isOpenDeleteConfirm} handleDeleteConfirm={handleDeleteConfirm}></DeleteConfirm>
         <UpdateConfirm handleUpdateConfirm={handleUpdateConfirm} isOpenUpdateConfirm={isOpenUpdateConfirm} handleUpdateTask={handleUpdateTask} ></UpdateConfirm>
