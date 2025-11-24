@@ -3,7 +3,7 @@ export function DeleteConfirm({ isOpenDeleteConfirm, handleDeleteConfirm }) {
   return (
     <>
       <div className={`
-      z-1
+      z-30
       flex 
       flex-col 
       bg-gray-800 
@@ -17,7 +17,7 @@ export function DeleteConfirm({ isOpenDeleteConfirm, handleDeleteConfirm }) {
       -translate-x-1/2 
       -translate-y-1/2 
       rounded-sm
-      ${isOpenDeleteConfirm ? "opacity-100 scale-100 transition-all duration-300 ease-in-out" : "opacity-0 scale-100 transition-all duration-300 ease-in-out"}
+      ${isOpenDeleteConfirm ? "opacity-100 scale-100 transition-all duration-300 ease-in-out" : "pointer-events-none opacity-0 scale-100 transition-all duration-300 ease-in-out"}
       `}>
         <div className="flex h-16 w-16 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30 mb-4">
           <span className="material-symbols-outlined text-3xl text-red-500 dark:text-red-400">delete</span>
@@ -27,7 +27,17 @@ export function DeleteConfirm({ isOpenDeleteConfirm, handleDeleteConfirm }) {
         <div className="flex w-full gap-5">
           <button 
           onClick = {handleDeleteConfirm}
-          className="font-bold flex-1 px-10 w-full py-3 rounded-lg bg-slate-700 cursor-pointer hover:bg-white/30 transition-all">Cancel</button>
+          className="font-bold 
+          flex-1 
+          px-10 
+          w-full 
+          py-3 
+          rounded-lg 
+          bg-slate-700 
+          cursor-pointer 
+          hover:bg-white/30 
+          transition-all"
+          >Cancel</button>
           <button
             onClick={handleDeleteConfirm}
             className={`font-bold 
@@ -39,7 +49,6 @@ export function DeleteConfirm({ isOpenDeleteConfirm, handleDeleteConfirm }) {
           cursor-pointer 
           hover:bg-red-500 
           transition-all`
-
             }>Delete</button>
         </div>
       </div>

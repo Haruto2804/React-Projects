@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom'
 import { GoPencil } from "react-icons/go";
 import { FaRegTrashAlt } from "react-icons/fa";
-export function TasksView({ handleDeleteConfirm, handleToggleCompleted, todo }) {
+export function TasksView({ handleUpdateTask, handleDeleteConfirm, handleToggleCompleted, todo }) {
   console.log(todo);
   const location = useLocation();
   const currentView = location.pathname.split('/').pop();
@@ -118,9 +118,9 @@ export function TasksView({ handleDeleteConfirm, handleToggleCompleted, todo }) 
           {filteredTasks.map((task) => {
             return (
               <div key={task.id} className=" cursor-pointer hover:bg-slate-100 transition-all col-span-5 grid grid-cols-subgrid items-center border-b border-gray-200 p-2">
-                <input 
-                onClick = {handleToggleCompleted}
-                disable={task.completed} type="checkbox" className="size-5 cursor-pointer" />
+                <input
+                  onClick={handleToggleCompleted}
+                  disabled={task.completed} type="checkbox" className="size-5 cursor-pointer" />
                 <p className={task.completed === true ? "line-through opacity-30" : ""}>{task.todo}</p>
                 <p className={task.completed === true ? "line-through opacity-30" : ""}>{task.date}</p>
                 <p className={task.priority === "High" ? " text-red-800 bg-red-200 font-medium rounded-xl text-center p-2 " :
@@ -130,12 +130,16 @@ export function TasksView({ handleDeleteConfirm, handleToggleCompleted, todo }) 
 
                 }>{task.priority}</p>
                 <div className="flex flex-col opacity-0 hover:opacity-100 items-center">
-                  <div className="p-2 hover:bg-black/10 transition-all rounded-full">
+                  <button
+                  onClick={handleUpdateTask}
+                    disabled={task.completed}
+                    className="p-2 cursor-pointer hover:bg-black/10 transition-all rounded-full">
                     <GoPencil />
-                  </div>
-                  <button 
-                  onClick = {handleDeleteConfirm}
-                  className="p-2 cursor-pointer hover:bg-black/10 transition-all rounded-full">
+                  </button>
+                  <button
+                    disabled={task.completed}
+                    onClick={handleDeleteConfirm}
+                    className="p-2 cursor-pointer hover:bg-black/10 transition-all rounded-full">
                     <FaRegTrashAlt />
                   </button>
 
