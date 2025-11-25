@@ -3,7 +3,7 @@ export const TodayProgress = React.memo(function TodayProgress({ total, complete
   console.log('rerender today progerss')
   return (
     <>
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3 select-none">
         <p className="font-bold text-lg">Today's Progress</p>
         <div className="flex gap-3 items-center">
           <div className="progress-percent text-xl font-bold w-20 flex justify-center">{percent}%</div>

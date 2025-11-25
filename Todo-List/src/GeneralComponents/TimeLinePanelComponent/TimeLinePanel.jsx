@@ -31,13 +31,13 @@ export const TimeLinePanel = React.memo((function TimeLinePanel({ upcomingTasks,
   return (
     <>
       <div className="fixed top-0 right-0 bottom-0 border-l overflow-y-scroll
-      border-gray-200 border-solid flex flex-col gap-4 justify-evenly
+      border-gray-200 border-solid flex flex-col
       bg-white max-w-85
       px-3 py-4
       ">
-        <div className="flex flex-col gap-5">
-          <Calendar className="basis-1/2"></Calendar>
-          <UpComingDeadlines handleTimeRemaining={handleTimeRemaining} upcomingTasks={upcomingTasks} ></UpComingDeadlines>
+        <div className="flex flex-col gap-5 justify-between">
+          <Calendar></Calendar>
+          <UpComingDeadlines  handleTimeRemaining={handleTimeRemaining} upcomingTasks={upcomingTasks} ></UpComingDeadlines>
           <TodayProgress total={total} completedTask={completedTask} percent={percent}></TodayProgress>
         </div>
       </div>

@@ -136,12 +136,9 @@ export const TasksView = React.memo(function TasksView({ setUpcomingTasks, handl
     
     return tasksToSort;
   }, [filteredTasks, sortOrder, sortPriorityOrder, handleSortDateAscending, handleSortDateDescending, handleSortPriorityAscending, handleSortPriorityDescending]); 
-
-  console.log(sortOrder);
-
   return (
     <>
-      <div className="ml-[250px] mr-79 flex-1 p-8 flex flex-col gap-5 overflow-y-auto">
+      <div className="select-auto ml-[250px] mr-79 flex-1 p-8 flex flex-col gap-5 overflow-y-auto">
         <div className="">
           <div className="flex flex-col gap-5">
             <p className="text-3xl font-bold">{currentView === "completed" ?

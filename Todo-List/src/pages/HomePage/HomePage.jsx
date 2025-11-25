@@ -17,7 +17,6 @@ export function HomePage({ handleDeleteAllCurrentView, deleteTask, handleToggleC
   const [isSelectAll, setIsSelectAll] = useState(false);
   const [taskIdFiltered, setTaskIdFiltered] = useState([]);
   const [upcomingTasks, setUpcomingTasks] = useState([]);
-  console.log('upcoming task',upcomingTasks);
 
   const memorizedHandleAddNewTask = useCallback(() => {
     setIsOpenAddNewTask(isOpen => !isOpen);

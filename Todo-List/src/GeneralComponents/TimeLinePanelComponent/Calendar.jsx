@@ -85,7 +85,7 @@ export function Calendar() {
   // --- Giao diện (JSX) ---
   return (
     <>
-      <div className="calendar w-[300px] bg-white 0 p-4 rounded-lg shadow-xl flex flex-col items-center">
+      <div className="calendar w-[300px] bg-white 0 p-4 rounded-lg shadow-xl flex flex-col items-center select-none">
         
         {/* Header: Navigation and Month/Year */}
         <div className="flex gap-5 justify-between w-full mb-3 items-center">

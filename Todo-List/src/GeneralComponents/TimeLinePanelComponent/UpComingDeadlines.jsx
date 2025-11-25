@@ -3,7 +3,7 @@ export function UpComingDeadlines({ handleTimeRemaining, upcomingTasks }) {
   console.log('rerender up coming deadlines');
   return (
     <>
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3 select-none">
         <p className="font-bold text-lg">Upcoming Deadlines</p>
         {upcomingTasks.map((task) => (
           <div className="flex gap-4 items-center cursor-pointer hover:bg-blue-100 rounded-lg">

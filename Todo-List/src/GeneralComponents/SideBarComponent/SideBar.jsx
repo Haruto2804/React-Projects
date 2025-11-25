@@ -16,7 +16,7 @@ export const SideBar = React.memo(function SideBar({ handleAddNewTask }) {
     }`;
 
   return (
-    <nav className="fixed top-0 left-0 bottom-0 flex flex-col gap-5 w-sidebar border-r border-solid border-gray-200 p-5 bg-white">
+    <nav className="select-none fixed top-0 left-0 bottom-0 flex flex-col gap-5 w-sidebar border-r border-solid border-gray-200 p-5 bg-white">
 
       {/* User Section (Link về Trang chủ) */}
       <Link to="/" className="p-2">

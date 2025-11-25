@@ -36,7 +36,7 @@ export const AddNewTaskModal = React.memo(function AddNewTaskModal({ addTasks, i
         ${isOpen ? 'opacity-100 scale-100 transition-all duration-300 ease-in-out' : 'opacity-0 scale-95 pointer-events-none transition-all duration-300 ease-in-out'} `;
   return (
     <>
-      <div className={modalClasses}>
+      <div className={`${modalClasses} select-none`} >
         <ModalHeader header="Add new task" subtitle="Fill in the details below to add a new task."></ModalHeader>
         <hr className=" border-t border-gray-300 w-full" />
         <ModalInput setTodoName={setTodoName} setDate={setDate} defaultDateString={defaultDateString}></ModalInput>
