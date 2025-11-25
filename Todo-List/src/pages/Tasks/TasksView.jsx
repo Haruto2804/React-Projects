@@ -2,12 +2,13 @@ import { useLocation } from 'react-router-dom'
 import { GoPencil } from "react-icons/go";
 import { FaRegTrashAlt } from "react-icons/fa";
 import React from 'react'
-export const TasksView = React.memo(function TasksView({ isOpenCompletedConfirm, isSelectAll, handleSelectAllClick, handleUpdateTask, handleDeleteConfirm, handleToggleCompleted, todo }) {
+export const TasksView = React.memo(function TasksView({ handleDeleteAllCurrentView, isOpenCompletedConfirm, isSelectAll, handleSelectAllClick, handleUpdateTask, handleDeleteConfirm, handleToggleCompleted, todo }) {
   console.log('render task view')
+  console.log(handleDeleteAllCurrentView)
   const location = useLocation();
   const currentView = location.pathname.split('/').pop();
   const tasksToDisplay = todo || [];
-  console.log('todo: sau khi add redner taskview',tasksToDisplay);
+  console.log('todo: sau khi add redner taskview', tasksToDisplay);
   const getTodayStart = () => {
     const now = new Date();
     // Đặt giờ, phút, giây, mili-giây về 00:00:00.000
@@ -39,7 +40,7 @@ export const TasksView = React.memo(function TasksView({ isOpenCompletedConfirm,
       filteredTasks = activeTasks.filter(task => {
         const taskTimestamp = getTaskDateStart(task.date);
 
-        return (taskTimestamp === todayTimestamp && !task.completed) ;
+        return (taskTimestamp === todayTimestamp && !task.completed);
       });
       break;
     case 'all':
@@ -56,7 +57,7 @@ export const TasksView = React.memo(function TasksView({ isOpenCompletedConfirm,
     month: 'long',
     day: '2-digit'
   });
-    console.log('todo: sau khi loc curren view redner taskview',filteredTasks);
+  console.log('todo: sau khi loc curren view redner taskview', filteredTasks);
   const tasksIdFiltered = filteredTasks.map((task) => task.id) || [];
   return (
     <>
@@ -72,8 +73,9 @@ export const TasksView = React.memo(function TasksView({ isOpenCompletedConfirm,
 
         </div>
         <div>
-          <div className="sort-controls flex gap-5 font-semibold">
-            <select className="
+          <div className="flex w-full justify-between">
+            <div className="sort-controls flex gap-5 font-semibold">
+              <select className="
             bg-gray-100    
               border           
             border-gray-300 
@@ -88,11 +90,11 @@ export const TasksView = React.memo(function TasksView({ isOpenCompletedConfirm,
               outline-none
               cursor-pointer
               appearance-none">
-              <option className="">Due Date (Ascending)</option>
-              <option className="" cvalue="due_date_desc">Due Date (Descending)</option>
-            </select>
+                <option className="">Due Date (Ascending)</option>
+                <option className="" cvalue="due_date_desc">Due Date (Descending)</option>
+              </select>
 
-            <select className="
+              <select className="
               p-2 
             bg-gray-100     
               border           
@@ -109,10 +111,22 @@ export const TasksView = React.memo(function TasksView({ isOpenCompletedConfirm,
               cursor-pointer
               appearance-none
             ">
-              <option className="" value="priority_high">Priority (Ascending)</option>
-              <option className="" value="priority_low">Priority (Descending)</option>
-            </select>
+                <option className="" value="priority_high">Priority (Ascending)</option>
+                <option className="" value="priority_low">Priority (Descending)</option>
+              </select>
+            </div>
+            <button
+              onClick={() => handleDeleteAllCurrentView(tasksIdFiltered)}
+              className={`
+              bg-red-600
+               text-white 
+               rounded-sm p-3 
+               cursor-pointer 
+               hover:bg-red-700 
+               active:scale-96 
+               `} >Delete All</button>
           </div>
+
         </div>
         <div className="grid grid-cols-[auto,1fr,auto,auto,auto] border rounded-sm gap-5 border-gray-200">
           <div className="col-span-5 grid grid-cols-subgrid font-semibold h-10 items-center border-b border-gray-200 bg-slate-50 p-2">

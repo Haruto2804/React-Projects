@@ -7,7 +7,7 @@ import { DeleteConfirm } from '../../GeneralComponents/Confirm/DeleteConfirm'
 import { UpdateConfirm } from '../../GeneralComponents/Confirm/UpdateConfirm'
 import { CompletedConfirm } from '../../GeneralComponents/Confirm/CompletedConfirm'
 import { UpdateTask } from '../../GeneralComponents/UpdateTask/UpdateTask'
-export function HomePage({ deleteTask, handleToggleCompleted, addTasks, todo, setTodos }) {
+export function HomePage({ handleDeleteAllCurrentView,deleteTask, handleToggleCompleted, addTasks, todo, setTodos }) {
   const [isOpenAddNewTask, setIsOpenAddNewTask] = useState(false);
   const [isOpenDeleteConfirm, setIsOpenDeleteConfirm] = useState(false);
   const [isOpenUpdateTask, setIsOpenUpdateTask] = useState(false);
@@ -121,8 +121,8 @@ export function HomePage({ deleteTask, handleToggleCompleted, addTasks, todo, se
             if (isOpenUpdateConfirm) handleUpdateConfirm();
           }}></div>
         <SideBar handleAddNewTask={memorizedHandleAddNewTask}></SideBar>
-
-        <TasksView isOpenCompletedConfirm={isOpenCompletedConfirm} isSelectAll={isSelectAll} handleCompletedConfirm={handleCompletedConfirm} handleSelectAllClick={handleSelectAllClick} handleUpdateTask={handleUpdateTask} handleDeleteConfirm={handleDeleteConfirm} handleToggleCompleted={handleToggleCompleted} todo={todo}></TasksView>
+        
+        <TasksView handleDeleteAllCurrentView = {handleDeleteAllCurrentView} isOpenCompletedConfirm={isOpenCompletedConfirm} isSelectAll={isSelectAll} handleCompletedConfirm={handleCompletedConfirm} handleSelectAllClick={handleSelectAllClick} handleUpdateTask={handleUpdateTask} handleDeleteConfirm={handleDeleteConfirm} handleToggleCompleted={handleToggleCompleted} todo={todo}></TasksView>
 
         <TimeLinePanel todo={todo}></TimeLinePanel>
 
@@ -133,7 +133,6 @@ export function HomePage({ deleteTask, handleToggleCompleted, addTasks, todo, se
         <UpdateConfirm handleUpdateConfirm={handleUpdateConfirm} isOpenUpdateConfirm={isOpenUpdateConfirm} handleUpdateTask={handleUpdateTask} ></UpdateConfirm>
 
         <UpdateTask handleUpdateConfirm={handleUpdateConfirm} isOpenUpdateConfirm={isOpenUpdateTask} handleUpdateTask={handleUpdateTask}></UpdateTask>
-
         <CompletedConfirm setIsSelectAll = {setIsSelectAll} handleConfirmAction={handleConfirmAction} handleCompletedConfirm={handleCompletedConfirm} isOpenCompletedConfirm={isOpenCompletedConfirm}></CompletedConfirm>
       </div>
     </>

@@ -151,6 +151,14 @@ function App() {
   }, []);
 
 
+
+  const handleDeleteAllCurrentView = (taskCurrentViews) => {
+    const newSetIdTaskCurrentView = new Set(taskCurrentViews);
+    const newTodoAfterDelete = todo.filter((task) => {
+      return !newSetIdTaskCurrentView.has(task.id);
+    })
+    setTodos(newTodoAfterDelete);
+  }
   useEffect(() => {
     // 1. Kiểm tra xem dữ liệu có tồn tại không trước khi lưu
     if (todo.length > 0) {
@@ -162,7 +170,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<HomePage deleteTask={deleteTask} handleToggleCompleted={handleToggleCompleted} addTasks={addTasks} todo={todo} setTodos={setTodos} />}>
+        <Route path="/" element={<HomePage handleDeleteAllCurrentView={handleDeleteAllCurrentView} deleteTask={deleteTask} handleToggleCompleted={handleToggleCompleted} addTasks={addTasks} todo={todo} setTodos={setTodos} />}>
           <Route path="/tasks/all" element={<TasksView />} />
           <Route path="/tasks/today" element={<TasksView />} />
           <Route path="/tasks/upcoming" element={<TasksView />} />
