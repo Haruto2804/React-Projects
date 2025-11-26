@@ -2,6 +2,9 @@ import React from 'react'
 
 export const UpdateConfirm = React.memo(function UpdateConfirm({ updateTask, taskToUpdate, handleUpdateConfirm, isOpenUpdateConfirm, handleUpdateTask }) {
   console.log('rerender update confirm');
+  console.log('task de cap nhat,', taskToUpdate);
+  // KIỂM TRA ĐÂY:
+
   return (
     <>
       <div className={`
@@ -31,6 +34,7 @@ export const UpdateConfirm = React.memo(function UpdateConfirm({ updateTask, tas
         <div className="flex w-full gap-5">
           <button
             onClick={() => {
+              updateTask(taskToUpdate);
               handleUpdateConfirm();
               handleUpdateTask();
             }}
@@ -39,10 +43,6 @@ export const UpdateConfirm = React.memo(function UpdateConfirm({ updateTask, tas
           </button>
           <button
 
-            onClick={() => {
-              handleUpdateConfirm();
-              updateTask(taskToUpdate);
-            }}
             className={`font-bold 
           flex-1 
           px-10 
@@ -52,7 +52,12 @@ export const UpdateConfirm = React.memo(function UpdateConfirm({ updateTask, tas
           cursor-pointer 
           hover:bg-blue-500 
           transition-all`
-            }>Update</button>
+            }
+            onClick={() => {
+              updateTask(taskToUpdate);
+              handleUpdateConfirm();
+            }}
+          >Update</button>
         </div>
       </div>
     </>

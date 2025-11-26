@@ -1,5 +1,5 @@
 import { IoMdClose } from "react-icons/io";
-export function UpdateTaskHeader(handleUpdateConfirm) {
+export function UpdateTaskHeader({handleUpdateConfirm}) {
   return (
     <>
       <div className="flex items-center justify-between w-full">

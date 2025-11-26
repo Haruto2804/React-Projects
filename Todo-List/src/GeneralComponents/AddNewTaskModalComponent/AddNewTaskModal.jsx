@@ -4,7 +4,8 @@ import { ModalPriority } from './ModalPriority'
 import { ModalDescription } from './ModalDescription'
 import { useCallback, useState } from 'react'
 import React from 'react'
-export const AddNewTaskModal = React.memo(function AddNewTaskModal({ getTodayStamp, getTaskDateStamp, setIsErrorInputOpen, setError, addTasks, isOpen, handleAddNewTask }) {
+import { getTaskDateStamp,getTodayStamp } from '../../utils/DateUtils'
+export const AddNewTaskModal = React.memo(function AddNewTaskModal({ setIsErrorInputOpen, setError, addTasks, isOpen, handleAddNewTask }) {
   console.log('rerender add new task modal')
 
   const [todoName, setTodoName] = useState("");
@@ -49,7 +50,7 @@ export const AddNewTaskModal = React.memo(function AddNewTaskModal({ getTodaySta
     }
     addTasks(newTaskData);
     handleAddNewTask();
-  },[addTasks, date, defaultDateString, description, getTaskDateStamp, getTodayStamp, handleAddNewTask, priority, setError, setIsErrorInputOpen, todoName])
+  },[addTasks, date, defaultDateString, description, handleAddNewTask, priority, setError, setIsErrorInputOpen, todoName])
 
   const modalClasses = `
         fixed 

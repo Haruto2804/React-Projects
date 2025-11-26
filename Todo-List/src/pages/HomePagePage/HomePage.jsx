@@ -10,23 +10,17 @@ import { UpdateTask } from '../../GeneralComponents/UpdateTask/UpdateTask'
 import { InputError } from '../../GeneralComponents/Error/InputError'
 export function HomePage({ updateTask, handleDeleteAllCurrentView, deleteTask, handleToggleCompleted, addTasks, todo, setTodos }) {
   const [isOpenAddNewTask, setIsOpenAddNewTask] = useState(false);
-  const [isOpenDeleteConfirm, setIsOpenDeleteConfirm] = useState(false);
   const [isOpenUpdateTask, setIsOpenUpdateTask] = useState(false);
   const [isOpenUpdateConfirm, setIsOpenUpdateConfirm] = useState(false);
   const [isOpenCompletedConfirm, setIsOpenCompletedConfirm] = useState(false);
-  const [taskIdToDelete, setTaskIdToDelete] = useState(null);
+  const [isOpenDeleteConfirm, setIsOpenDeleteConfirm] = useState(false);
   const [isSelectAll, setIsSelectAll] = useState(false);
   const [taskIdFiltered, setTaskIdFiltered] = useState([]);
   const [upcomingTasks, setUpcomingTasks] = useState([]);
   const [taskToUpdate, setTaskToUpdate] = useState(null);
   const [error, setError] = useState("");
   const [isErrorInputOpen, setIsErrorInputOpen] = useState(false);
-  console.log('==============================================render homepage');
-  console.log(todo);  
-  const memorizedHandleAddNewTask = useCallback(() => {
-    setIsOpenAddNewTask(isOpen => !isOpen);
-  }, [])
-
+  const [taskIdToDelete, setTaskIdToDelete] = useState(null);
   const handleDeleteConfirm = useCallback((taskId) => {
     if (taskId) {
       setTaskIdToDelete(taskId);
@@ -35,6 +29,12 @@ export function HomePage({ updateTask, handleDeleteAllCurrentView, deleteTask, h
     }
     setIsOpenDeleteConfirm(isOpenDeleteConfirm => !isOpenDeleteConfirm);
   }, [])
+  console.log('==============================================render homepage');
+  console.log(todo);
+  const memorizedHandleAddNewTask = useCallback(() => {
+    setIsOpenAddNewTask(isOpen => !isOpen);
+  }, [])
+
   const handleUpdateTask = useCallback(() => {
     setIsOpenUpdateTask(isOpenUpdateTask => !isOpenUpdateTask);
   }, [])
@@ -109,17 +109,7 @@ export function HomePage({ updateTask, handleDeleteAllCurrentView, deleteTask, h
 
     handleCompletedConfirm();
   }
-  const getTodayStamp = useCallback(() => {
-    const now = new Date();
-    now.setHours(0, 0, 0, 0);
-    return now.getTime();
-  }, [])
-  const getTaskDateStamp = useCallback((dateInput) => {
-    if (dateInput == null) return;
-    const dateInputStamp = new Date(dateInput);
-    dateInputStamp.setHours(0, 0, 0, 0);
-    return dateInputStamp.getTime();
-  }, [])
+
 
   return (
     <div className="font-inter">
@@ -158,8 +148,6 @@ export function HomePage({ updateTask, handleDeleteAllCurrentView, deleteTask, h
           todo={todo}></TimeLinePanel>
 
         <AddNewTaskModal
-          getTodayStamp={getTodayStamp}
-          getTaskDateStamp={getTaskDateStamp}
           setIsErrorInputOpen={setIsErrorInputOpen}
           setError={setError}
           addTasks={addTasks}
@@ -185,14 +173,12 @@ export function HomePage({ updateTask, handleDeleteAllCurrentView, deleteTask, h
         </UpdateConfirm>
 
         <UpdateTask
-          getTodayStamp={getTodayStamp}
-          getTaskDateStamp={getTaskDateStamp}
           setIsErrorInputOpen={setIsErrorInputOpen}
           setError={setError}
           taskToUpdate={taskToUpdate}
           setTaskToUpdate={setTaskToUpdate}
           setUpcomingTasks handleUpdateConfirm={handleUpdateConfirm}
-          isOpenUpdateConfirm={isOpenUpdateTask}
+          isOpenUpdateTask={isOpenUpdateTask}
           handleUpdateTask={handleUpdateTask}>
         </UpdateTask>
 

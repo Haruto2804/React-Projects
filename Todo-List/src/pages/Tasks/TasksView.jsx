@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { GoPencil } from "react-icons/go";
 import { FaRegTrashAlt } from "react-icons/fa";
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-
+import { GrExpand } from "react-icons/gr";
 // Priority Weight được đưa ra ngoài component để là hằng số tĩnh, tối ưu hóa hiệu suất
 const priorityWeight = {
   'High': 3,
@@ -235,41 +235,48 @@ export const TasksView = React.memo(function TasksView({ handleDeleteAllCurrentV
           </div>
           {sortedTasks.map((task) => {
             return (
-              
-                <Link to = {`/tasks/details/${task.id}`} key={task.id} className=" cursor-pointer hover:bg-slate-100 transition-all col-span-5 grid grid-cols-subgrid items-center border-b border-gray-200 p-2">
-                  <input
-                    type="checkbox"
-                    checked={task.completed}
-                    disabled={task.completed}
-                    onChange={() => handleToggleCompleted(task.id)}
-                    className="size-5 cursor-pointer"
-                  />
-                  <p className={`${task.completed === true ? "line-through opacity-30" : "truncate"} `}>{task.name}</p>
-                  <p className={task.completed === true ? "line-through opacity-30" : ""}>{task.date}</p>
-                  <p className={task.priority === "High" ? " text-red-800 bg-red-200 font-medium rounded-xl text-center p-2 " :
-                    task.priority === "Medium" ? "text-yellow-800 bg-yellow-200 font-medium rounded-xl text-center p-2" :
-                      task.priority === "Low" ? "text-gray-800 bg-gray-200 font-medium rounded-xl text-center p-2"
-                        : "text-green-800 bg-green-200 font-medium rounded-xl text-center p-2"
 
-                  }>{task.priority}</p>
-                  <div className="flex flex-col opacity-0 hover:opacity-100 items-center">
-                    <button
-                      onClick={() => {
-                        handleUpdateTask();
-                        setTaskToUpdate(task);
-                      }}
-                      disabled={task.completed}
-                      className="p-2 cursor-pointer hover:bg-black/10 transition-all rounded-full">
-                      <GoPencil />
-                    </button>
-                    <button
-                      disabled={task.completed}
-                      onClick={() => handleDeleteConfirm(task.id)}
-                      className="p-2 cursor-pointer hover:bg-black/10 transition-all rounded-full">
-                      <FaRegTrashAlt />
-                    </button>
-                  </div>
-                </Link>
+              <div key={task.id} className=" cursor-pointer hover:bg-slate-100 transition-all col-span-5 grid grid-cols-subgrid items-center border-b border-gray-200 p-2">
+                <input
+                  type="checkbox"
+                  checked={task.completed}
+                  disabled={task.completed}
+                  onChange={() => handleToggleCompleted(task.id)}
+                  className="size-5 cursor-pointer"
+                />
+                <p className={`${task.completed === true ? "line-through opacity-30" : "truncate"} `}>{task.name}</p>
+                <p className={task.completed === true ? "line-through opacity-30" : ""}>{task.date}</p>
+                <p className={task.priority === "High" ? " text-red-800 bg-red-200 font-medium rounded-xl text-center p-2 " :
+                  task.priority === "Medium" ? "text-yellow-800 bg-yellow-200 font-medium rounded-xl text-center p-2" :
+                    task.priority === "Low" ? "text-gray-800 bg-gray-200 font-medium rounded-xl text-center p-2"
+                      : "text-green-800 bg-green-200 font-medium rounded-xl text-center p-2"
+
+                }>{task.priority}</p>
+                <div className="flex flex-col opacity-0 hover:opacity-100 items-center">
+                  <button
+                    onClick={() => {
+                      handleUpdateTask();
+                      setTaskToUpdate(task);
+                    }}
+                    disabled={task.completed}
+                    className="p-2 cursor-pointer hover:bg-black/10 transition-all rounded-full">
+                    <GoPencil />
+                  </button>
+                  <button
+                    disabled={task.completed}
+                    onClick={() => handleDeleteConfirm(task.id)}
+                    className="p-2 cursor-pointer hover:bg-black/10 transition-all rounded-full">
+                    <FaRegTrashAlt />
+                  </button>
+                    <Link to = {`/tasks/details/${task.id}`}
+                    disabled={task.completed}
+                    onClick={() => handleDeleteConfirm(task.id)}
+                    className="p-2 cursor-pointer hover:bg-black/10 transition-all rounded-full">
+                    <GrExpand />
+                  </Link>
+                  
+                </div>
+              </div>
             )
           })}
         </div>
