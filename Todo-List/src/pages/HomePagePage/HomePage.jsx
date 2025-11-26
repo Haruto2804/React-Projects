@@ -7,7 +7,7 @@ import { DeleteConfirm } from '../../GeneralComponents/Confirm/DeleteConfirm'
 import { UpdateConfirm } from '../../GeneralComponents/Confirm/UpdateConfirm'
 import { CompletedConfirm } from '../../GeneralComponents/Confirm/CompletedConfirm'
 import { UpdateTask } from '../../GeneralComponents/UpdateTask/UpdateTask'
-export function HomePage({ handleDeleteAllCurrentView, deleteTask, handleToggleCompleted, addTasks, todo, setTodos }) {
+export function HomePage({ updateTask, handleDeleteAllCurrentView, deleteTask, handleToggleCompleted, addTasks, todo, setTodos }) {
   const [isOpenAddNewTask, setIsOpenAddNewTask] = useState(false);
   const [isOpenDeleteConfirm, setIsOpenDeleteConfirm] = useState(false);
   const [isOpenUpdateTask, setIsOpenUpdateTask] = useState(false);
@@ -17,6 +17,8 @@ export function HomePage({ handleDeleteAllCurrentView, deleteTask, handleToggleC
   const [isSelectAll, setIsSelectAll] = useState(false);
   const [taskIdFiltered, setTaskIdFiltered] = useState([]);
   const [upcomingTasks, setUpcomingTasks] = useState([]);
+  const [taskToUpdate, setTaskToUpdate] = useState(null);
+  console.log(taskToUpdate);
 
   const memorizedHandleAddNewTask = useCallback(() => {
     setIsOpenAddNewTask(isOpen => !isOpen);
@@ -125,7 +127,7 @@ export function HomePage({ handleDeleteAllCurrentView, deleteTask, handleToggleC
           }}></div>
         <SideBar handleAddNewTask={memorizedHandleAddNewTask}></SideBar>
 
-        <TasksView setUpcomingTasks = {setUpcomingTasks} handleDeleteAllCurrentView={handleDeleteAllCurrentView} isOpenCompletedConfirm={isOpenCompletedConfirm} isSelectAll={isSelectAll} handleCompletedConfirm={handleCompletedConfirm} handleSelectAllClick={handleSelectAllClick} handleUpdateTask={handleUpdateTask} handleDeleteConfirm={handleDeleteConfirm} handleToggleCompleted={handleToggleCompleted} todo={todo}></TasksView>
+        <TasksView setTaskToUpdate = {setTaskToUpdate} setUpcomingTasks = {setUpcomingTasks} handleDeleteAllCurrentView={handleDeleteAllCurrentView} isOpenCompletedConfirm={isOpenCompletedConfirm} isSelectAll={isSelectAll} handleCompletedConfirm={handleCompletedConfirm} handleSelectAllClick={handleSelectAllClick} handleUpdateTask={handleUpdateTask} handleDeleteConfirm={handleDeleteConfirm} handleToggleCompleted={handleToggleCompleted} todo={todo}></TasksView>
 
         <TimeLinePanel  upcomingTasks = {upcomingTasks} todo={todo}></TimeLinePanel>
 
@@ -133,9 +135,9 @@ export function HomePage({ handleDeleteAllCurrentView, deleteTask, handleToggleC
 
         <DeleteConfirm deleteTask={deleteTask} taskIdToDelete={taskIdToDelete} isOpenDeleteConfirm={isOpenDeleteConfirm} handleDeleteConfirm={handleDeleteConfirm}></DeleteConfirm>
 
-        <UpdateConfirm handleUpdateConfirm={handleUpdateConfirm} isOpenUpdateConfirm={isOpenUpdateConfirm} handleUpdateTask={handleUpdateTask} ></UpdateConfirm>
+        <UpdateConfirm updateTask = {updateTask} taskToUpdate = {taskToUpdate} handleUpdateConfirm={handleUpdateConfirm} isOpenUpdateConfirm={isOpenUpdateConfirm} handleUpdateTask={handleUpdateTask} ></UpdateConfirm>
 
-        <UpdateTask handleUpdateConfirm={handleUpdateConfirm} isOpenUpdateConfirm={isOpenUpdateTask} handleUpdateTask={handleUpdateTask}></UpdateTask>
+        <UpdateTask taskToUpdate = {taskToUpdate} setTaskToUpdate = {setTaskToUpdate} setUpcomingTasks handleUpdateConfirm={handleUpdateConfirm} isOpenUpdateConfirm={isOpenUpdateTask} handleUpdateTask={handleUpdateTask}></UpdateTask>
         <CompletedConfirm setIsSelectAll={setIsSelectAll} handleConfirmAction={handleConfirmAction} handleCompletedConfirm={handleCompletedConfirm} isOpenCompletedConfirm={isOpenCompletedConfirm}></CompletedConfirm>
       </div>
     </div>

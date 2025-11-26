@@ -13,7 +13,7 @@ const priorityWeight = {
   'None': 0,
 };
 
-export const TasksView = React.memo(function TasksView({ setUpcomingTasks, handleDeleteAllCurrentView, isOpenCompletedConfirm, isSelectAll, handleSelectAllClick, handleUpdateTask, handleDeleteConfirm, handleToggleCompleted, todo }) {
+export const TasksView = React.memo(function TasksView({ setTaskToUpdate, setUpcomingTasks, handleDeleteAllCurrentView, isOpenCompletedConfirm, isSelectAll, handleSelectAllClick, handleUpdateTask, handleDeleteConfirm, handleToggleCompleted, todo }) {
   console.log('render task view')
   
   // ✅ CẬP NHẬT: Đặt giá trị mặc định ban đầu là 'date_none'
@@ -253,7 +253,10 @@ export const TasksView = React.memo(function TasksView({ setUpcomingTasks, handl
                 }>{task.priority}</p>
                 <div className="flex flex-col opacity-0 hover:opacity-100 items-center">
                   <button
-                    onClick={handleUpdateTask}
+                    onClick={()=> {
+                      handleUpdateTask();
+                      setTaskToUpdate(task);
+                    }}
                     disabled={task.completed}
                     className="p-2 cursor-pointer hover:bg-black/10 transition-all rounded-full">
                     <GoPencil />

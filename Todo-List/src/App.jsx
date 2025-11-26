@@ -147,6 +147,20 @@ function App() {
     console.log('task vua xoa',newDataTodo);
     setError(null);
   }
+  const updateTask = (taskToUpdate) => {
+    setTodos (prevTodo=> {
+      return prevTodo.map((task)=> {
+        if(task.id === taskToUpdate.id) {
+          return {
+            ...task,
+            ...taskToUpdate
+          };
+        }
+        return task;
+      })
+    })
+    setError(null);
+  }
   const handleToggleCompleted = useCallback((taskId) => {
     setTodos(prevTask =>
       prevTask.map(task =>
@@ -177,7 +191,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<HomePage handleDeleteAllCurrentView={handleDeleteAllCurrentView} deleteTask={deleteTask} handleToggleCompleted={handleToggleCompleted} addTasks={addTasks} todo={todo} setTodos={setTodos} />}>
+        <Route path="/" element={<HomePage updateTask = {updateTask} handleDeleteAllCurrentView={handleDeleteAllCurrentView} deleteTask={deleteTask} handleToggleCompleted={handleToggleCompleted} addTasks={addTasks} todo={todo} setTodos={setTodos} />}>
           <Route path="/tasks/all" element={<TasksView />} />
           <Route path="/tasks/today" element={<TasksView />} />
           <Route path="/tasks/upcoming" element={<TasksView />} />

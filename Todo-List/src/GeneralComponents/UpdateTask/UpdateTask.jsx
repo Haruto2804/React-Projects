@@ -3,13 +3,38 @@ import { ModalPriority } from "../AddNewTaskModalComponent/ModalPriority";
 import { ModalInput } from "../AddNewTaskModalComponent/ModalInput";
 import { UpdateTaskHeader } from "./UpdateTaskHeader";
 import { ModalDescription } from "../AddNewTaskModalComponent/ModalDescription";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import React from 'react'
-export const UpdateTask = React.memo(function UpdateTask({ handleUpdateConfirm, isOpenUpdateConfirm, handleUpdateTask }) {
+export const UpdateTask = React.memo(function UpdateTask({ taskToUpdate, setTaskToUpdate, handleUpdateConfirm, isOpenUpdateConfirm, handleUpdateTask }) {
+  console.log('rerender update task')
   const [todoName, setTodoName] = useState("");
-  const [description, setDescription] = useState("sdsd");
+  const [description, setDescription] = useState("");
   const [priority, setPriority] = useState("");
   const [date, setDate] = useState("");
+  useEffect(() => {
+    // Chỉ chạy khi taskToUpdate có dữ liệu (tức là đang sửa task)
+    if (taskToUpdate && taskToUpdate.id) {
+      setTodoName(taskToUpdate.todo || "");
+      setDescription(taskToUpdate.description || "");
+      setPriority(taskToUpdate.priority || "");
+      setDate(taskToUpdate.date || "");
+    }
+  }, [taskToUpdate]);
+  const handleSaveUpdateTask = () => {
+    const newTodo = {
+      todo: todoName,
+      description: description,
+      priority: priority,
+      date: date,
+    }
+    setTaskToUpdate(prevTask => {
+      return {
+        ...prevTask,
+        ...newTodo
+      }
+    })
+    console.log('update task',newTodo)
+  }
   return (
     <>
       <div className={`
@@ -30,9 +55,9 @@ export const UpdateTask = React.memo(function UpdateTask({ handleUpdateConfirm, 
       `}>
         <div className="flex flex-col gap-12">
           <UpdateTaskHeader handleUpdateConfirm={handleUpdateConfirm}></UpdateTaskHeader>
-          <ModalInput todoName={todoName} date={date}></ModalInput>
-          <ModalDescription description={description}></ModalDescription>
-          <ModalPriority priority={priority}></ModalPriority>
+          <ModalInput todoName={todoName} setTodoName={setTodoName} date={date} setDate={setDate}></ModalInput>
+          <ModalDescription description={description} setDescription={setDescription}></ModalDescription>
+          <ModalPriority priority={priority} setPriority={setPriority}></ModalPriority>
           <div className="flex gap-5 self-end">
             <button
               onClick={handleUpdateTask}
@@ -41,8 +66,10 @@ export const UpdateTask = React.memo(function UpdateTask({ handleUpdateConfirm, 
             </button>
             <button
               onClick={() => {
+                handleSaveUpdateTask();
                 handleUpdateTask();
                 handleUpdateConfirm();
+
               }
 
               }

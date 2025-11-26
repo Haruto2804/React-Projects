@@ -1,4 +1,5 @@
-export function UpdateConfirm({ handleUpdateConfirm, isOpenUpdateConfirm, handleUpdateTask }) {
+export function UpdateConfirm({ updateTask,taskToUpdate, handleUpdateConfirm, isOpenUpdateConfirm, handleUpdateTask }) {
+  console.log('rerender update confirm');
   return (
     <>
       <div className={`
@@ -35,8 +36,10 @@ export function UpdateConfirm({ handleUpdateConfirm, isOpenUpdateConfirm, handle
             Cancel
           </button>
           <button
+
             onClick={() => {
               handleUpdateConfirm();
+              updateTask(taskToUpdate);
             }}
             className={`font-bold 
           flex-1 
