@@ -1,4 +1,6 @@
-export function UpdateConfirm({ updateTask,taskToUpdate, handleUpdateConfirm, isOpenUpdateConfirm, handleUpdateTask }) {
+import React from 'react'
+
+export const UpdateConfirm = React.memo(function UpdateConfirm({ updateTask, taskToUpdate, handleUpdateConfirm, isOpenUpdateConfirm, handleUpdateTask }) {
   console.log('rerender update confirm');
   return (
     <>
@@ -55,4 +57,4 @@ export function UpdateConfirm({ updateTask,taskToUpdate, handleUpdateConfirm, is
       </div>
     </>
   )
-}
+})

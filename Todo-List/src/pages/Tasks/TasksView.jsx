@@ -228,7 +228,7 @@ export const TasksView = React.memo(function TasksView({ setTaskToUpdate, setUpc
               disabled={sortedTasks.length === 0 || sortedTasks.every((task) => task.completed)}
               checked={isSelectAll}
               type="checkbox" className="size-5" />
-            <p className="">Task Title</p>
+            <p className="">Task name</p>
             <p>Due Date</p>
             <p>Priority</p>
             <p>Action</p>
@@ -243,7 +243,7 @@ export const TasksView = React.memo(function TasksView({ setTaskToUpdate, setUpc
                   onChange={() => handleToggleCompleted(task.id)}
                   className="size-5 cursor-pointer"
                 />
-                <p className={`${task.completed === true ? "line-through opacity-30" : "truncate"} `}>{task.todo}</p>
+                <p className={`${task.completed === true ? "line-through opacity-30" : "truncate"} `}>{task.name}</p>
                 <p className={task.completed === true ? "line-through opacity-30" : ""}>{task.date}</p>
                 <p className={task.priority === "High" ? " text-red-800 bg-red-200 font-medium rounded-xl text-center p-2 " :
                   task.priority === "Medium" ? "text-yellow-800 bg-yellow-200 font-medium rounded-xl text-center p-2" :

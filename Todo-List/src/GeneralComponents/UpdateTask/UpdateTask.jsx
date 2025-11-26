@@ -22,7 +22,7 @@ export const UpdateTask = React.memo(function UpdateTask({ taskToUpdate, setTask
   }, [taskToUpdate]);
   const handleSaveUpdateTask = () => {
     const newTodo = {
-      todo: todoName,
+      name: todoName,
       description: description,
       priority: priority,
       date: date,

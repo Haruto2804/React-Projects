@@ -93,28 +93,37 @@ function App() {
     }
   }
   const addTasks = async (newTaskData) => {
-    try {
-      const response = await axios.post('https://dummyjson.com/todos/add', newTaskData);
-      const addNewTask = response.data;
-      const finalTask = {
-        ...addNewTask,
-        id: crypto.randomUUID(),
-        priority: newTaskData.priority,
-        name: newTaskData.name,
-        date: newTaskData.date,
-        isDeleted: false
-      }
-      setTodos(prevTodos => [
-        finalTask,
-        ...prevTodos
-      ])
-      setError(null);
-    } catch (err) {
-      console.log("Loi khi them cong viec: ", err);
-      setError("Không thể thêm công việc. Vui lòng kiểm tra lại dữ liệu.");
-    } finally {
-      setIsLoading(false);
-    }
+    //Dùng API để add dữ liệu
+    // try {
+    //   const response = await axios.post('https://dummyjson.com/todos/add', newTaskData);
+    //   const addNewTask = response.data;
+    //   const finalTask = {
+    //     ...addNewTask,
+    //     id: crypto.randomUUID(),
+    //     priority: newTaskData.priority,
+    //     name: newTaskData.name,
+    //     date: newTaskData.date,
+    //     isDeleted: false
+    //   }
+    //   setTodos(prevTodos => [
+    //     finalTask,
+    //     ...prevTodos
+    //   ])
+    //   setError(null);
+    // } catch (err) {
+    //   console.log("Loi khi them cong viec: ", err);
+    //   setError("Không thể thêm công việc. Vui lòng kiểm tra lại dữ liệu.");
+    // } finally {
+    //   setIsLoading(false);
+    // }
+    //Code xử lí add
+    setTodos(prevTodo=> {
+      return [
+        newTaskData,
+        ...prevTodo
+      ]
+    })
+    setError(null);
   }
   const deleteTask = async (taskId) => {
     //Xóa bằng cách gọi API, thêm isDeleted từ API trả về đưa vào task, nhưng todo thật sự chưa có xóa khỏi danh sach
@@ -141,16 +150,16 @@ function App() {
     //   setIsLoading(false);
     // }
     //Xóa bằng cách dùng code của bản thân
-    console.log('task can xoa',taskId)
+    console.log('task can xoa', taskId)
     const newDataTodo = todo.filter((task) => task.id != taskId); // trả về danh sách todo ko có taskID cần xóa
     setTodos(newDataTodo);
-    console.log('task vua xoa',newDataTodo);
+    console.log('task vua xoa', newDataTodo);
     setError(null);
   }
   const updateTask = (taskToUpdate) => {
-    setTodos (prevTodo=> {
-      return prevTodo.map((task)=> {
-        if(task.id === taskToUpdate.id) {
+    setTodos(prevTodo => {
+      return prevTodo.map((task) => {
+        if (task.id === taskToUpdate.id) {
           return {
             ...task,
             ...taskToUpdate
@@ -191,7 +200,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<HomePage updateTask = {updateTask} handleDeleteAllCurrentView={handleDeleteAllCurrentView} deleteTask={deleteTask} handleToggleCompleted={handleToggleCompleted} addTasks={addTasks} todo={todo} setTodos={setTodos} />}>
+        <Route path="/" element={<HomePage updateTask={updateTask} handleDeleteAllCurrentView={handleDeleteAllCurrentView} deleteTask={deleteTask} handleToggleCompleted={handleToggleCompleted} addTasks={addTasks} todo={todo} setTodos={setTodos} />}>
           <Route path="/tasks/all" element={<TasksView />} />
           <Route path="/tasks/today" element={<TasksView />} />
           <Route path="/tasks/upcoming" element={<TasksView />} />

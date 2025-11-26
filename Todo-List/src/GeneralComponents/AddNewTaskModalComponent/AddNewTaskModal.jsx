@@ -2,9 +2,22 @@ import { ModalHeader } from './ModalHeader'
 import { ModalInput } from './ModalInput'
 import { ModalPriority } from './ModalPriority'
 import { ModalDescription } from './ModalDescription'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import React from 'react'
-export const AddNewTaskModal = React.memo(function AddNewTaskModal({ addTasks, isOpen, handleAddNewTask }) {
+export const AddNewTaskModal = React.memo(function AddNewTaskModal({ setIsErrorInputOpen, setError, addTasks, isOpen, handleAddNewTask }) {
+  console.log('rerender add new task modal')
+  const getTodayStamp = useCallback(() => {
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+    return now.getTime();
+  }, [])
+  const getTaskDateStamp = useCallback((dateInput) => {
+    if (dateInput == null) return;
+    const dateInputStamp = new Date(dateInput);
+    dateInputStamp.setHours(0, 0, 0, 0);
+    return dateInputStamp.getTime();
+  }, [])
+
   const [todoName, setTodoName] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState("");
@@ -12,22 +25,46 @@ export const AddNewTaskModal = React.memo(function AddNewTaskModal({ addTasks, i
   const currentDate = new Date();
   // Lấy ngày hôm nay ở định dạng YYYY-MM-DD (cần cho logic lọc)
   const defaultDateString = currentDate.toISOString().split('T')[0];
-  const handleSaveTodo = () => {
+  const handleSaveTodo = (() => {
+    setError(null);
+    if (todoName.trim() === '' && date.trim() === '') {
+      setError('Task Name and Due Date cannot be empty')
+      setIsErrorInputOpen(true);
+      handleAddNewTask();
+      return;
+    }
+    else if (todoName.trim() === '') {
+      setError('Task Name cannot be empty');
+      setIsErrorInputOpen(true);
+      handleAddNewTask();
+      return;
+    } else if (date.trim() === '') {
+      setError('Task Due Date cannot be empty');
+      setIsErrorInputOpen(true);
+      handleAddNewTask();
+      return;
+    }
+    const todayStamp = getTodayStamp();
+    const taskDateStamp = getTaskDateStamp(date);
+    if (taskDateStamp < todayStamp) {
+      setError('Task Date cannot be in the past');
+      setIsErrorInputOpen(true);
+      handleAddNewTask();
+      return;
+    }
     const newTaskData = {
-      todo: description,
+      name: todoName,
       completed: false,
-      userId: Math.floor(Math.random() * 10) + 1,
+      userId: crypto.randomUUID(),
       priority: priority || 'Medium',
       date: date || defaultDateString,
-      name: todoName,
       isDeleted: false,
-      id: crypto.randomUUID()
+      description: description,
+      id: crypto.randomUUID(),
     }
-    console.log('Add vua duoc them vao la: ');
-    console.log(newTaskData)
     addTasks(newTaskData);
     handleAddNewTask();
-  }
+  })
 
   const modalClasses = `fixed pt-5 px-10 pb-20 absolute justify-around
         top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
