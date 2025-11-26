@@ -22,6 +22,7 @@ export function HomePage({ updateTask, handleDeleteAllCurrentView, deleteTask, h
   const [error, setError] = useState("");
   const [isErrorInputOpen, setIsErrorInputOpen] = useState(false);
   console.log('==============================================render homepage');
+  console.log(todo);  
   const memorizedHandleAddNewTask = useCallback(() => {
     setIsOpenAddNewTask(isOpen => !isOpen);
   }, [])
@@ -108,6 +109,18 @@ export function HomePage({ updateTask, handleDeleteAllCurrentView, deleteTask, h
 
     handleCompletedConfirm();
   }
+  const getTodayStamp = useCallback(() => {
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+    return now.getTime();
+  }, [])
+  const getTaskDateStamp = useCallback((dateInput) => {
+    if (dateInput == null) return;
+    const dateInputStamp = new Date(dateInput);
+    dateInputStamp.setHours(0, 0, 0, 0);
+    return dateInputStamp.getTime();
+  }, [])
+
   return (
     <div className="font-inter">
       <div className="relative flex flex-col">
@@ -134,7 +147,6 @@ export function HomePage({ updateTask, handleDeleteAllCurrentView, deleteTask, h
           handleDeleteAllCurrentView={handleDeleteAllCurrentView}
           isOpenCompletedConfirm={isOpenCompletedConfirm}
           isSelectAll={isSelectAll}
-          handleCompletedConfirm={handleCompletedConfirm}
           handleSelectAllClick={handleSelectAllClick}
           handleUpdateTask={handleUpdateTask}
           handleDeleteConfirm={handleDeleteConfirm}
@@ -146,7 +158,9 @@ export function HomePage({ updateTask, handleDeleteAllCurrentView, deleteTask, h
           todo={todo}></TimeLinePanel>
 
         <AddNewTaskModal
-          setIsErrorInputOpen = {setIsErrorInputOpen}
+          getTodayStamp={getTodayStamp}
+          getTaskDateStamp={getTaskDateStamp}
+          setIsErrorInputOpen={setIsErrorInputOpen}
           setError={setError}
           addTasks={addTasks}
           isOpen={isOpenAddNewTask}
@@ -171,6 +185,10 @@ export function HomePage({ updateTask, handleDeleteAllCurrentView, deleteTask, h
         </UpdateConfirm>
 
         <UpdateTask
+          getTodayStamp={getTodayStamp}
+          getTaskDateStamp={getTaskDateStamp}
+          setIsErrorInputOpen={setIsErrorInputOpen}
+          setError={setError}
           taskToUpdate={taskToUpdate}
           setTaskToUpdate={setTaskToUpdate}
           setUpcomingTasks handleUpdateConfirm={handleUpdateConfirm}
@@ -184,7 +202,10 @@ export function HomePage({ updateTask, handleDeleteAllCurrentView, deleteTask, h
           handleCompletedConfirm={handleCompletedConfirm}
           isOpenCompletedConfirm={isOpenCompletedConfirm}>
         </CompletedConfirm>
-        <InputError isErrorInputOpen={isErrorInputOpen} setIsErrorInputOpen={setIsErrorInputOpen} error={error} ></InputError>
+        <InputError
+          isErrorInputOpen={isErrorInputOpen}
+          setIsErrorInputOpen={setIsErrorInputOpen}
+          error={error} ></InputError>
       </div>
     </div>
   )

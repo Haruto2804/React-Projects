@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { GoPencil } from "react-icons/go";
 import { FaRegTrashAlt } from "react-icons/fa";
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
@@ -13,13 +13,13 @@ const priorityWeight = {
   'None': 0,
 };
 
-export const TasksView = React.memo(function TasksView({ setTaskToUpdate, setUpcomingTasks, handleDeleteAllCurrentView, isOpenCompletedConfirm, isSelectAll, handleSelectAllClick, handleUpdateTask, handleDeleteConfirm, handleToggleCompleted, todo }) {
+export const TasksView = React.memo(function TasksView({ handleDeleteAllCurrentView, setTaskToUpdate, setUpcomingTasks, isSelectAll, handleSelectAllClick, handleUpdateTask, handleDeleteConfirm, handleToggleCompleted, todo }) {
   console.log('render task view')
-  
+
   // ✅ CẬP NHẬT: Đặt giá trị mặc định ban đầu là 'date_none'
-  const [sortOrder, setSortOrder] = useState('date_none'); 
-  const [sortPriorityOrder, setSortPriorityOrder] = useState('priority_none'); 
-  
+  const [sortOrder, setSortOrder] = useState('date_none');
+  const [sortPriorityOrder, setSortPriorityOrder] = useState('priority_none');
+
   const location = useLocation();
   const currentView = location.pathname.split('/').pop();
 
@@ -40,7 +40,7 @@ export const TasksView = React.memo(function TasksView({ setTaskToUpdate, setUpc
     return taskDate.getTime();
   }, []);
   const todayTimestamp = getTodayStart();
-  
+
   switch (currentView) {
     case 'completed':
       filteredTasks = activeTasks.filter(task => task.completed === true);
@@ -58,13 +58,13 @@ export const TasksView = React.memo(function TasksView({ setTaskToUpdate, setUpc
       });
       break;
     case 'all':
-      filteredTasks = activeTasks.filter(task => task.completed === false); 
+      filteredTasks = activeTasks.filter(task => task.completed === false);
       break;
     default:
       filteredTasks = activeTasks;
       break;
   }
-  
+
   const currentTime = new Date();
   const dateString = currentTime.toLocaleString('default', {
     weekday: 'long',
@@ -87,9 +87,9 @@ export const TasksView = React.memo(function TasksView({ setTaskToUpdate, setUpc
   const handleSortDateAscending = useCallback((a, b) => {
     const dateA = getTaskDateStart(a.date);
     const dateB = getTaskDateStart(b.date);
-    if (dateA === null && dateB !== null) return 1; 
-    if (dateA !== null && dateB === null) return -1; 
-    if (dateA === null && dateB === null) return 0; 
+    if (dateA === null && dateB !== null) return 1;
+    if (dateA !== null && dateB === null) return -1;
+    if (dateA === null && dateB === null) return 0;
     return dateA - dateB;
   }, [getTaskDateStart])
 
@@ -107,7 +107,7 @@ export const TasksView = React.memo(function TasksView({ setTaskToUpdate, setUpc
     const weightA = priorityWeight[a.priority] || 0;
     const weightB = priorityWeight[b.priority] || 0;
     return weightA - weightB;
-  }, []); 
+  }, []);
 
   const handleSortPriorityDescending = useCallback((a, b) => {
     const weightA = priorityWeight[a.priority] || 0;
@@ -117,7 +117,7 @@ export const TasksView = React.memo(function TasksView({ setTaskToUpdate, setUpc
 
   const sortedTasks = useMemo(() => {
     const tasksToSort = [...filteredTasks];
-    
+
     // 1. Ưu tiên sắp xếp theo Priority
     if (sortPriorityOrder === 'priority_asc') {
       return tasksToSort.sort(handleSortPriorityAscending);
@@ -125,7 +125,7 @@ export const TasksView = React.memo(function TasksView({ setTaskToUpdate, setUpc
     if (sortPriorityOrder === 'priority_desc') {
       return tasksToSort.sort(handleSortPriorityDescending);
     }
-    
+
     // 2. Nếu Priority không được chọn, sắp xếp theo Due Date
     if (sortOrder === 'date_desc') {
       return tasksToSort.sort(handleSortDateDescending);
@@ -134,9 +134,9 @@ export const TasksView = React.memo(function TasksView({ setTaskToUpdate, setUpc
       return tasksToSort.sort(handleSortDateAscending);
     }
     // Trường hợp mặc định 'date_none' (không sắp xếp theo ngày) thì trả về mảng gốc đã lọc
-    
+
     return tasksToSort;
-  }, [filteredTasks, sortOrder, sortPriorityOrder, handleSortDateAscending, handleSortDateDescending, handleSortPriorityAscending, handleSortPriorityDescending]); 
+  }, [filteredTasks, sortOrder, sortPriorityOrder, handleSortDateAscending, handleSortDateDescending, handleSortPriorityAscending, handleSortPriorityDescending]);
   return (
     <>
       <div className="select-auto ml-[250px] mr-79 flex-1 p-8 flex flex-col gap-5 overflow-y-auto">
@@ -155,8 +155,8 @@ export const TasksView = React.memo(function TasksView({ setTaskToUpdate, setUpc
               <select
                 value={sortOrder}
                 onChange={(e) => {
-                    setSortOrder(e.target.value);
-                    setSortPriorityOrder('priority_none') 
+                  setSortOrder(e.target.value);
+                  setSortPriorityOrder('priority_none')
                 }}
                 className="
               bg-gray-100       
@@ -173,7 +173,7 @@ export const TasksView = React.memo(function TasksView({ setTaskToUpdate, setUpc
                 outline-none
                 cursor-pointer
                 appearance-none">
-                <option className="" value="date_none">Due Date (None)</option> 
+                <option className="" value="date_none">Due Date (None)</option>
                 <option className="" value="date_asc">Due Date (Ascending)</option>
                 <option className="" value="date_desc">Due Date (Descending)</option>
               </select>
@@ -201,7 +201,7 @@ export const TasksView = React.memo(function TasksView({ setTaskToUpdate, setUpc
                 cursor-pointer
                 appearance-none
               ">
-                <option className="" value="priority_none">Priority (None)</option> 
+                <option className="" value="priority_none">Priority (None)</option>
                 <option className="" value="priority_asc">Priority (Low - High)</option>
                 <option className="" value="priority_desc">Priority (High - Low)</option>
               </select>
@@ -235,40 +235,41 @@ export const TasksView = React.memo(function TasksView({ setTaskToUpdate, setUpc
           </div>
           {sortedTasks.map((task) => {
             return (
-              <div key={task.id} className=" cursor-pointer hover:bg-slate-100 transition-all col-span-5 grid grid-cols-subgrid items-center border-b border-gray-200 p-2">
-                <input
-                  type="checkbox"
-                  checked={task.completed} 
-                  disabled={task.completed}
-                  onChange={() => handleToggleCompleted(task.id)}
-                  className="size-5 cursor-pointer"
-                />
-                <p className={`${task.completed === true ? "line-through opacity-30" : "truncate"} `}>{task.name}</p>
-                <p className={task.completed === true ? "line-through opacity-30" : ""}>{task.date}</p>
-                <p className={task.priority === "High" ? " text-red-800 bg-red-200 font-medium rounded-xl text-center p-2 " :
-                  task.priority === "Medium" ? "text-yellow-800 bg-yellow-200 font-medium rounded-xl text-center p-2" :
-                    task.priority === "Low" ? "text-gray-800 bg-gray-200 font-medium rounded-xl text-center p-2"
-                      : "text-green-800 bg-green-200 font-medium rounded-xl text-center p-2"
+              
+                <Link to = {`/tasks/details/${task.id}`} key={task.id} className=" cursor-pointer hover:bg-slate-100 transition-all col-span-5 grid grid-cols-subgrid items-center border-b border-gray-200 p-2">
+                  <input
+                    type="checkbox"
+                    checked={task.completed}
+                    disabled={task.completed}
+                    onChange={() => handleToggleCompleted(task.id)}
+                    className="size-5 cursor-pointer"
+                  />
+                  <p className={`${task.completed === true ? "line-through opacity-30" : "truncate"} `}>{task.name}</p>
+                  <p className={task.completed === true ? "line-through opacity-30" : ""}>{task.date}</p>
+                  <p className={task.priority === "High" ? " text-red-800 bg-red-200 font-medium rounded-xl text-center p-2 " :
+                    task.priority === "Medium" ? "text-yellow-800 bg-yellow-200 font-medium rounded-xl text-center p-2" :
+                      task.priority === "Low" ? "text-gray-800 bg-gray-200 font-medium rounded-xl text-center p-2"
+                        : "text-green-800 bg-green-200 font-medium rounded-xl text-center p-2"
 
-                }>{task.priority}</p>
-                <div className="flex flex-col opacity-0 hover:opacity-100 items-center">
-                  <button
-                    onClick={()=> {
-                      handleUpdateTask();
-                      setTaskToUpdate(task);
-                    }}
-                    disabled={task.completed}
-                    className="p-2 cursor-pointer hover:bg-black/10 transition-all rounded-full">
-                    <GoPencil />
-                  </button>
-                  <button
-                    disabled={task.completed}
-                    onClick={() => handleDeleteConfirm(task.id)}
-                    className="p-2 cursor-pointer hover:bg-black/10 transition-all rounded-full">
-                    <FaRegTrashAlt />
-                  </button>
-                </div>
-              </div>
+                  }>{task.priority}</p>
+                  <div className="flex flex-col opacity-0 hover:opacity-100 items-center">
+                    <button
+                      onClick={() => {
+                        handleUpdateTask();
+                        setTaskToUpdate(task);
+                      }}
+                      disabled={task.completed}
+                      className="p-2 cursor-pointer hover:bg-black/10 transition-all rounded-full">
+                      <GoPencil />
+                    </button>
+                    <button
+                      disabled={task.completed}
+                      onClick={() => handleDeleteConfirm(task.id)}
+                      className="p-2 cursor-pointer hover:bg-black/10 transition-all rounded-full">
+                      <FaRegTrashAlt />
+                    </button>
+                  </div>
+                </Link>
             )
           })}
         </div>

@@ -3,9 +3,9 @@ import { ModalPriority } from "../AddNewTaskModalComponent/ModalPriority";
 import { ModalInput } from "../AddNewTaskModalComponent/ModalInput";
 import { UpdateTaskHeader } from "./UpdateTaskHeader";
 import { ModalDescription } from "../AddNewTaskModalComponent/ModalDescription";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import React from 'react'
-export const UpdateTask = React.memo(function UpdateTask({ taskToUpdate, setTaskToUpdate, handleUpdateConfirm, isOpenUpdateConfirm, handleUpdateTask }) {
+export const UpdateTask = React.memo(function UpdateTask({ getTodayStamp, getTaskDateStamp, setIsErrorInputOpen, setError, taskToUpdate, setTaskToUpdate, handleUpdateConfirm, isOpenUpdateConfirm, handleUpdateTask }) {
   console.log('rerender update task')
   const [todoName, setTodoName] = useState("");
   const [description, setDescription] = useState("");
@@ -21,6 +21,37 @@ export const UpdateTask = React.memo(function UpdateTask({ taskToUpdate, setTask
     }
   }, [taskToUpdate]);
   const handleSaveUpdateTask = () => {
+    setError(null);
+    if (todoName.trim() === '' && date.trim() === '') {
+      setError('Task Name and Due Date cannot be empty')
+      setIsErrorInputOpen(true);
+      handleUpdateTask();
+      return;
+    }
+    else if (todoName.trim() === '') {
+      setError('Task Name cannot be empty');
+      setIsErrorInputOpen(true);
+      handleUpdateTask();
+      return;
+    } else if (date.trim() === '') {
+      setError('Task Due Date cannot be empty');
+      setIsErrorInputOpen(true);
+      handleUpdateTask();
+      return;
+    }
+    const todayStamp = getTodayStamp();
+    const taskDateStamp = getTaskDateStamp(date);
+    if (taskDateStamp < todayStamp) {
+      setError('Task Date cannot be in the past');
+      setIsErrorInputOpen(true);
+      handleUpdateTask();
+      return;
+    }
+
+
+
+
+
     const newTodo = {
       name: todoName,
       description: description,
@@ -33,7 +64,7 @@ export const UpdateTask = React.memo(function UpdateTask({ taskToUpdate, setTask
         ...newTodo
       }
     })
-    console.log('update task',newTodo)
+    console.log('update task', newTodo)
   }
   return (
     <>

@@ -3,6 +3,7 @@ import { HomePage } from './pages/HomePagePage/HomePage.jsx'
 import { Route, Routes } from 'react-router-dom'
 import { NotFound } from './pages/NotFound'
 import { TasksView } from './pages/Tasks/TasksView'
+import { DetailsTodoPage } from './pages/DetailsTodoPage.jsx'
 import { useEffect, useState, useCallback } from 'react'
 import axios from 'axios'
 const getInitialTodos = () => {
@@ -206,9 +207,9 @@ function App() {
           <Route path="/tasks/upcoming" element={<TasksView />} />
           <Route path="/tasks/completed" element={<TasksView />} />
         </Route>
+        <Route path= "/tasks/details/:taskId" element = {<DetailsTodoPage todo = {todo}/>}/>
         <Route path="*" element={<NotFound />} />
       </Routes>
-
     </>
   )
 }

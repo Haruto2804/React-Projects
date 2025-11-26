@@ -4,19 +4,8 @@ import { ModalPriority } from './ModalPriority'
 import { ModalDescription } from './ModalDescription'
 import { useCallback, useState } from 'react'
 import React from 'react'
-export const AddNewTaskModal = React.memo(function AddNewTaskModal({ setIsErrorInputOpen, setError, addTasks, isOpen, handleAddNewTask }) {
+export const AddNewTaskModal = React.memo(function AddNewTaskModal({ getTodayStamp, getTaskDateStamp, setIsErrorInputOpen, setError, addTasks, isOpen, handleAddNewTask }) {
   console.log('rerender add new task modal')
-  const getTodayStamp = useCallback(() => {
-    const now = new Date();
-    now.setHours(0, 0, 0, 0);
-    return now.getTime();
-  }, [])
-  const getTaskDateStamp = useCallback((dateInput) => {
-    if (dateInput == null) return;
-    const dateInputStamp = new Date(dateInput);
-    dateInputStamp.setHours(0, 0, 0, 0);
-    return dateInputStamp.getTime();
-  }, [])
 
   const [todoName, setTodoName] = useState("");
   const [description, setDescription] = useState("");
@@ -25,23 +14,20 @@ export const AddNewTaskModal = React.memo(function AddNewTaskModal({ setIsErrorI
   const currentDate = new Date();
   // Lấy ngày hôm nay ở định dạng YYYY-MM-DD (cần cho logic lọc)
   const defaultDateString = currentDate.toISOString().split('T')[0];
-  const handleSaveTodo = (() => {
+  const handleSaveTodo = useCallback(() => {
     setError(null);
     if (todoName.trim() === '' && date.trim() === '') {
       setError('Task Name and Due Date cannot be empty')
       setIsErrorInputOpen(true);
-      handleAddNewTask();
       return;
     }
     else if (todoName.trim() === '') {
       setError('Task Name cannot be empty');
       setIsErrorInputOpen(true);
-      handleAddNewTask();
       return;
     } else if (date.trim() === '') {
       setError('Task Due Date cannot be empty');
       setIsErrorInputOpen(true);
-      handleAddNewTask();
       return;
     }
     const todayStamp = getTodayStamp();
@@ -49,7 +35,6 @@ export const AddNewTaskModal = React.memo(function AddNewTaskModal({ setIsErrorI
     if (taskDateStamp < todayStamp) {
       setError('Task Date cannot be in the past');
       setIsErrorInputOpen(true);
-      handleAddNewTask();
       return;
     }
     const newTaskData = {
@@ -64,12 +49,25 @@ export const AddNewTaskModal = React.memo(function AddNewTaskModal({ setIsErrorI
     }
     addTasks(newTaskData);
     handleAddNewTask();
-  })
+  },[addTasks, date, defaultDateString, description, getTaskDateStamp, getTodayStamp, handleAddNewTask, priority, setError, setIsErrorInputOpen, todoName])
 
-  const modalClasses = `fixed pt-5 px-10 pb-20 absolute justify-around
-        top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
-        bg-opacity-50 flex flex-col gap-4 z-1000 shadow-xl 
-        bg-white rounded-xl w-1/2  z-30
+  const modalClasses = `
+        fixed 
+        pt-5 
+        px-10 
+        pb-20 
+        absolute 
+        justify-around
+        top-1/2 
+        left-1/2 
+        -translate-x-1/2 
+        -translate-y-1/2 
+        bg-opacity-50 
+        flex 
+        flex-col 
+        gap-4
+        shadow-xl 
+        bg-white rounded-xl w-1/2 z-30
         ${isOpen ? 'opacity-100 scale-100 transition-all duration-300 ease-in-out' : 'opacity-0 scale-95 pointer-events-none transition-all duration-300 ease-in-out'} `;
   return (
     <>
