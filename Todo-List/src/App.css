@@ -2,4 +2,5 @@
 @import "tailwindcss";
 @theme {
   --font-inter: Inter;
+  --w-sidebar: 280px
 }

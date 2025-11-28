@@ -34,6 +34,7 @@ return (
       border-gray-200 border-solid flex flex-col
       bg-white max-w-85
       px-3 py-4
+      max-sm:hidden
       ">
       <div className="flex flex-col gap-5 justify-between">
         <Calendar></Calendar>

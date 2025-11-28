@@ -139,7 +139,10 @@ export const TasksView = React.memo(function TasksView({ selectedTasks, handleTo
   }, [filteredTasks, sortOrder, sortPriorityOrder, handleSortDateAscending, handleSortDateDescending, handleSortPriorityAscending, handleSortPriorityDescending]);
   return (
     <>
-      <div className="select-auto ml-[250px] mr-79 flex-1 p-8 flex flex-col gap-5 overflow-y-auto">
+      <div className="select-auto ml-[250px] mr-79 flex-1 p-8 flex flex-col gap-5 overflow-y-auto
+      max-sm:ml-0 max-sm:mr-0 max-sm:p-3 max-sm:mt-20
+      
+      ">
         <div className="">
           <div className="flex flex-col gap-5">
             <p className="text-3xl font-bold">{currentView === "completed"
@@ -148,7 +151,7 @@ export const TasksView = React.memo(function TasksView({ selectedTasks, handleTo
                 ? "Upcoming's Tasks"
                 : currentView === "today"
                   ? "Today's Tasks"
-                  : currentView === "Todo-List-Project" 
+                  : currentView === "Todo-List-Project"
                     ? "Home"
                     : "All Tasks"
             }
@@ -157,8 +160,9 @@ export const TasksView = React.memo(function TasksView({ selectedTasks, handleTo
           </div>
         </div>
         <div>
-          <div className="flex w-full justify-between">
-            <div className="sort-controls flex gap-5 font-semibold">
+          <div className="flex w-full justify-between max-sm:flex-col gap-5 items-center">
+            <div className="sort-controls flex gap-5 font-semibold
+            max-sm:flex-col">
               <select
                 value={sortOrder}
                 onChange={(e) => {
@@ -216,6 +220,7 @@ export const TasksView = React.memo(function TasksView({ selectedTasks, handleTo
             <button
               onClick={() => handleDeleteAllCurrentView(tasksIdFiltered)}
               className={`
+                max-sm:w-1/2
               bg-red-600
                text-white 
                rounded-sm p-3 
@@ -226,8 +231,12 @@ export const TasksView = React.memo(function TasksView({ selectedTasks, handleTo
           </div>
 
         </div>
-        <div className="grid grid-cols-[auto,1fr,auto,auto,auto] border rounded-sm gap-5 border-gray-200">
-          <div className="col-span-5 col-row-1 grid grid-cols-subgrid font-semibold h-10 items-center border-b border-gray-200 bg-slate-50 p-2">
+        <div className="grid grid-cols-[auto,1fr,auto,auto,auto] border rounded-sm gap-5 border-gray-200
+        max-sm:gap-y-0
+        ">
+          <div className="col-span-5 grid grid-cols-subgrid font-semibold h-10 items-center border-b border-gray-200 bg-slate-50 p-2
+          max-sm:h-20
+          ">
             <input
               onChange={(e) => {
                 console.log('select check:', e.target.checked)
@@ -237,52 +246,70 @@ export const TasksView = React.memo(function TasksView({ selectedTasks, handleTo
               checked={isSelectAll}
               type="checkbox" className="size-5" />
             <p className="">Task name</p>
-            <p>Due Date</p>
-            <p>Priority</p>
+            <p className = "">Due Date</p>
+            <p >Priority</p>
             <p>Action</p>
           </div>
           {sortedTasks.map((task) => {
             return (
 
-              <div key={task.id} className=" cursor-pointer hover:bg-slate-100 transition-all col-span-5 grid grid-cols-subgrid items-center border-b border-gray-200 p-2">
+              <div key={task.id} className="cursor-pointer hover:bg-slate-100 transition-all col-span-5 grid grid-cols-subgrid items-center border-b border-gray-200 p-2 
+              max-sm:p-2 max-
+              ">
                 <input
                   type="checkbox"
                   checked={selectedTasks.has(task.id)}
                   disabled={task.completed}
                   onChange={() => handleToggleSingleTask(task.id)}
-                  className="size-5 cursor-pointer"
+                  className="size-5 cursor-pointer shrink-0"
                 />
-                <p className={`${task.completed === true ? "line-through opacity-30" : "truncate"} `}>{task.name}</p>
-                <p className={task.completed === true ? "line-through opacity-30" : ""}>{task.date}</p>
-                <p className={task.priority === "High" ? " text-red-800 bg-red-200 font-medium rounded-xl text-center p-2 " :
-                  task.priority === "Medium" ? "text-yellow-800 bg-yellow-200 font-medium rounded-xl text-center p-2" :
-                    task.priority === "Low" ? "text-gray-800 bg-gray-200 font-medium rounded-xl text-center p-2"
-                      : "text-green-800 bg-green-200 font-medium rounded-xl text-center p-2"
 
-                }>{task.priority}</p>
-                <div className="flex flex-col opacity-0 hover:opacity-100 items-center">
+                <p className={`${task.completed === true ? "line-through opacity-30" : "truncate"} text-sm md:text-base`}>
+                  {task.name}
+                </p>
+
+                <p className={`${task.completed === true ? "line-through opacity-30" : ""} text-sm md:text-base max-sm:block`}>
+                  {task.date}
+                </p>
+
+                <p className={`text-xs md:text-sm font-medium rounded-xl text-center p-1.5 md:p-2 whitespace-nowrap ${task.priority === "High" ? "text-red-800 bg-red-200" :
+                    task.priority === "Medium" ? "text-yellow-800 bg-yellow-200" :
+                      task.priority === "Low" ? "text-gray-800 bg-gray-200" :
+                        "text-green-800 bg-green-200"
+                  }`}>
+                  {task.priority}
+                </p>
+
+                <div className="flex max-md:flex-col flex-row gap-1 md:gap-0 md:opacity-0 opacity-100 hover:opacity-100 items-center justify-end md:justify-center
+                ">
                   <button
                     onClick={() => {
                       handleUpdateTask();
                       setTaskToUpdate(task);
                     }}
                     disabled={task.completed}
-                    className="p-2 cursor-pointer hover:bg-black/10 transition-all rounded-full">
-                    <GoPencil />
+                    className="p-1.5 md:p-2 cursor-pointer hover:bg-black/10 transition-all rounded-full"
+                    aria-label="Edit task"
+                  >
+                    <GoPencil className="text-sm md:text-base" />
                   </button>
+
                   <button
                     disabled={task.completed}
                     onClick={() => handleDeleteConfirm(task.id)}
-                    className="p-2 cursor-pointer hover:bg-black/10 transition-all rounded-full">
-                    <FaRegTrashAlt />
+                    className="p-1.5 md:p-2 cursor-pointer hover:bg-black/10 transition-all rounded-full"
+                    aria-label="Delete task"
+                  >
+                    <FaRegTrashAlt className="text-sm md:text-base" />
                   </button>
-                  <Link to={`/tasks/details/${task.id}`}
-                    disabled={task.completed}
-                    onClick={() => handleDeleteConfirm(task.id)}
-                    className="p-2 cursor-pointer hover:bg-black/10 transition-all rounded-full">
-                    <GrExpand />
-                  </Link>
 
+                  <Link
+                    to={`/tasks/details/${task.id}`}
+                    className="p-1.5 md:p-2 cursor-pointer hover:bg-black/10 transition-all rounded-full"
+                    aria-label="View details"
+                  >
+                    <GrExpand className="text-sm md:text-base" />
+                  </Link>
                 </div>
               </div>
             )

@@ -129,9 +129,9 @@ export function HomePage({ updateTask, handleDeleteAllCurrentView, deleteTask, h
   }, [selectedTasks])
 
   return (
-    <div className="font-inter">
+    <div className="font-inter box-border">
       <div className="relative flex flex-col">
-        <div className={`overlay fixed top-0 right-0 z-20 left-0 bottom-0 bg-black/50
+        <div className={`overlay fixed top-0 right-0 z-20 left-0 bottom-0 bg-black/50 
           ${isOpenAddNewTask || isOpenDeleteConfirm || isOpenUpdateTask || isOpenUpdateConfirm || isOpenCompletedConfirm || isErrorInputOpen
             ? 'opacity-100 transition-all duration-300 ease-in-out  '
             : 'opacity-0 transition-all pointer-events-none duration-300 ease-in-out'}
