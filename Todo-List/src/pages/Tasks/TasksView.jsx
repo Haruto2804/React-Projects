@@ -139,8 +139,9 @@ export const TasksView = React.memo(function TasksView({ selectedTasks, handleTo
   }, [filteredTasks, sortOrder, sortPriorityOrder, handleSortDateAscending, handleSortDateDescending, handleSortPriorityAscending, handleSortPriorityDescending]);
   return (
     <>
-      <div className="select-auto ml-[250px] mr-79 flex-1 p-8 flex flex-col gap-5 overflow-y-auto
+      <div className="select-auto ml-15 mr-79 flex-1 p-8 flex flex-col gap-5 overflow-y-auto
       max-sm:ml-0 max-sm:mr-0 max-sm:p-3 max-sm:mt-20
+       max-lg:ml-15 max-lg:mr-0
       
       ">
         <div className="">

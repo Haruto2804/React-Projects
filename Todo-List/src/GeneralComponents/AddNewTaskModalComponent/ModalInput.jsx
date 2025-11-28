@@ -4,7 +4,7 @@ export function ModalInput({ todoName, setTodoName, date, setDate }) {
 
   return (
     <>
-      <div className="flex gap-5">
+      <div className="flex gap-5 md: flex-col">
         <div className="basis-1/2 flex flex-col gap-3">
           <p className="font-bold">Task Name</p>
           <input className=
